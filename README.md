@@ -1,7 +1,7 @@
 Grape::Roar
 ------------
 
-A proof of concept for using [Roar](https://github.com/apotonick/roar) in [Grape](https://github.com/intridea/grape). This implementation doesn't do anything - Grape works with Roar out of the box, call `to_json` on representers.
+A proof of concept for using [Roar](https://github.com/apotonick/roar) in [Grape](https://github.com/intridea/grape). This implementation doesn't do anything - Grape works with Roar out of the box, call `to_json` on representers or just return objects that include Roar representers.
 
 [![Build Status](https://secure.travis-ci.org/dblock/grape-roar.png)](http://travis-ci.org/dblock/grape-roar)
 
