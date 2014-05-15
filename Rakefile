@@ -1,12 +1,16 @@
-#!/usr/bin/env rake
-require "bundler/gem_tasks"
+require 'rubygems'
+require 'bundler'
 
-require 'rspec/core'
+Bundler.setup :default, :test, :development
+
+Bundler::GemHelper.install_tasks
+
 require 'rspec/core/rake_task'
-
 RSpec::Core::RakeTask.new(:spec) do |spec|
-  spec.rspec_opts = ['-fd -c']
-  spec.pattern = FileList['spec/**/*_spec.rb']
+  spec.pattern = 'spec/**/*_spec.rb'
 end
 
-task :default => :spec
+require 'rubocop/rake_task'
+Rubocop::RakeTask.new(:rubocop)
+
+task default: [:rubocop, :spec]

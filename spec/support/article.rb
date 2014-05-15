@@ -8,7 +8,7 @@ class Article
 
   def initialize(attrs = {})
     attrs.each_pair do |k, v|
-      self.send("#{k}=", v)
+      send("#{k}=", v)
     end
   end
 end

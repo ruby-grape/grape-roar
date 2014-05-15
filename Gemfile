@@ -2,8 +2,6 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem "grape", :git => "git://github.com/intridea/grape.git"
-
 group :development do
   gem "rake"
 end
@@ -11,4 +9,8 @@ end
 group :test do
   gem "rspec"
   gem "rack-test"
+end
+
+group :development, :test do
+  gem 'rubocop', '0.21.0'
 end

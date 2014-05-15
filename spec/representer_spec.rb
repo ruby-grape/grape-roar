@@ -14,21 +14,16 @@ describe Grape::Roar do
     subject
   end
 
-  context "article" do
-  
+  context 'representer' do
     before do
-      subject.get("/article/:id") {
-        Article.new({ 
-          :title => "Lonestar", 
-          :id => params[:id] 
-        }).to_json
-      }
+      subject.get('/article/:id') do
+        Article.new(title: 'Lonestar', id: params[:id])
+      end
     end
 
     it 'returns a hypermedia representation' do
-      get "/article/666"
+      get '/article/666'
       last_response.body.should == '{"title":"Lonestar","id":"666","links":[{"rel":"self","href":"/article/666"}]}'
     end
-
   end
 end

@@ -7,7 +7,7 @@ module OrderRepresenter
   property :id
   property :client_id
 
-  collection :articles, :class => Article
+  collection :articles, class: Article
 
   link :self do
     "/order/#{id}"
