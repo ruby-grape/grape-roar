@@ -49,6 +49,24 @@ get 'product/:id' do
 end
 ```
 
+Presenting collections works the same way.
+
+```ruby
+module ProductsRepresenter
+  include Roar::Representer::JSON
+  include Roar::Representer::Feature::Hypermedia
+  include Grape::Roar::Representer
+
+  collection :entries, extend: ProductPresenter, as: :products, embedded: true
+end
+```
+
+```ruby
+get 'products' do
+  present Product.all, with: ProductsRepresenter
+end
+```
+
 ### Accessing the Request Inside a Presenter
 
 The formatter invokes `to_json` on presented objects and provides access to the requesting environment via the `env` option. The following example renders a full request URL in a presenter.
