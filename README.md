@@ -5,6 +5,11 @@ Use [Roar](https://github.com/apotonick/roar) with [Grape](https://github.com/in
 
 [![Build Status](https://secure.travis-ci.org/dblock/grape-roar.png)](http://travis-ci.org/dblock/grape-roar)
 
+Demo
+----
+
+The [grape-with-roar](https://github.com/dblock/grape-with-roar) project deployed [here on heroku](http://grape-with-roar.herokuapp.com).
+
 Installation
 ------------
 
