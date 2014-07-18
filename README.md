@@ -19,13 +19,6 @@ gem 'grape-roar'
 Usage
 -----
 
-### Require grape-roar
-
-```ruby
-# config.ru
-require 'grape/roar'
-```
-
 ### Tell your API to use Grape::Formatter::Roar
 
 ```ruby
