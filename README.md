@@ -49,11 +49,11 @@ get 'product/:id' do
 end
 ```
 
-Presenting collections works the same way.
+Presenting collections works the same way. The following example returns an embedded set of products in the HAL Hypermedia format.
 
 ```ruby
 module ProductsRepresenter
-  include Roar::Representer::JSON
+  include Roar::Representer::JSON::HAL
   include Roar::Representer::Feature::Hypermedia
   include Grape::Roar::Representer
 
