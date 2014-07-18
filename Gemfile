@@ -7,10 +7,10 @@ group :development do
 end
 
 group :test do
-  gem "rspec"
+  gem "rspec", "~> 3.0"
   gem "rack-test"
 end
 
 group :development, :test do
-  gem 'rubocop', '0.21.0'
+  gem 'rubocop', '0.24.1'
 end

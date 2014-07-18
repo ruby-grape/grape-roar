@@ -23,7 +23,7 @@ describe Grape::Roar do
 
     it 'returns a hypermedia representation' do
       get '/product/666'
-      last_response.body.should == '{"title":"Lonestar","id":"666","links":[{"rel":"self","href":"/article/666"}]}'
+      expect(last_response.body).to eq '{"title":"Lonestar","id":"666","links":[{"rel":"self","href":"/article/666"}]}'
     end
   end
 end
