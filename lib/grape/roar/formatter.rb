@@ -3,7 +3,7 @@ module Grape
     module Roar
       class << self
         def call(object, env)
-          Grape::Formatter::Json.call object, env
+          object.to_json(env: env)
         end
       end
     end

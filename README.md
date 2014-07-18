@@ -8,17 +8,13 @@ Use [Roar](https://github.com/apotonick/roar) with [Grape](https://github.com/in
 Installation
 ------------
 
-Add the `grape`, `roar` and `grape-roar` gems to Gemfile. Currently requires HEAD of Grape.
+Add the `grape`, `roar` and `grape-roar` gems to Gemfile.
 
 ```ruby
 gem 'grape'
 gem 'roar'
 gem 'grape-roar'
 ```
-
-And then execute:
-
-    $ bundle
 
 Usage
 -----
@@ -39,7 +35,7 @@ class API < Grape::API
 end
 ```
 
-### Grape Present
+### Use Grape's Present
 
 You can use Grape's `present` keyword after including Grape::Roar::Presenter into a representer module.
 
@@ -60,10 +56,27 @@ get 'product/:id' do
 end
 ```
 
+### Accessing the Request Inside a Presenter
+
+The formatter invokes `to_json` on presented objects and provides access to the requesting environment via the `env` option. The following example renders a full request URL in a presenter.
+
+```ruby
+module ProductRepresenter
+  include Roar::Representer::JSON
+  include Roar::Representer::Feature::Hypermedia
+  include Grape::Roar::Representer
+
+  link :self do |opts|
+    request = Grape::Request.new(opts[:env])
+    "#{request.url}"
+  end
+end
+```
+
 Contributing
 ------------
 
-Fork the project. Make your feature addition or bug fix with tests. Send a pull request. Bonus points for topic branches.
+See [CONTRIBUTING](CONTRIBUTING.md).
 
 Copyright and License
 ---------------------
