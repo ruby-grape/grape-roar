@@ -3,8 +3,7 @@ module Grape
     module Roar
       class << self
         def call(object, env)
-          return object.to_json(env: env) if object.respond_to?(:to_json)
-          MultiJson.dump(object)
+          object.respond_to?(:to_json) ? object.to_json(env: env) : MultiJson.dump(object)
         end
       end
     end
