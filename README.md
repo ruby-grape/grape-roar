@@ -35,7 +35,7 @@ end
 
 ### Use Grape's Present
 
-You can use Grape's `present` keyword after including Grape::Roar::Presenter into a representer module.
+You can use Grape's `present` keyword after including Grape::Roar::Representer into a representer module.
 
 ```ruby
 module ProductRepresenter
@@ -72,9 +72,9 @@ get 'products' do
 end
 ```
 
-### Accessing the Request Inside a Presenter
+### Accessing the Request Inside a Representer
 
-The formatter invokes `to_json` on presented objects and provides access to the requesting environment via the `env` option. The following example renders a full request URL in a presenter.
+The formatter invokes `to_json` on presented objects and provides access to the requesting environment via the `env` option. The following example renders a full request URL in a representer.
 
 ```ruby
 module ProductRepresenter
