@@ -9,6 +9,7 @@ require 'grape'
 require 'roar'
 require 'roar/representer/json'
 require 'roar/representer/feature/hypermedia'
+require 'roar/decorator'
 
 require 'grape/roar'
 require 'rack/test'
