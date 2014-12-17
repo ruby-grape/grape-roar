@@ -1,3 +1,5 @@
+require 'roar/decorator'
+
 module Grape
   module Roar
     class Decorator < ::Roar::Decorator
