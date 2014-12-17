@@ -7,6 +7,7 @@ describe Grape::Roar::Decorator do
 
   before do
     subject.format :json
+    subject.formatter :json, Grape::Formatter::Roar
   end
 
   def app
