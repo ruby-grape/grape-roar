@@ -89,6 +89,30 @@ module ProductRepresenter
 end
 ```
 
+### Decorators
+
+If you prefer to use a decorator class instead of modules.
+
+```ruby
+class ProductRepresenter < Grape::Roar::Decorator
+  include Roar::Representer::JSON
+  include Roar::Representer::Feature::Hypermedia
+
+  link :self do |opts|
+    request = Grape::Request.new(opts[:env])
+    "#{request.url}/#{represented.id}"
+  end
+end
+```
+
+```ruby
+get 'products' do
+  present Product.all, with: ProductsRepresenter
+end
+```
+
+Note this issue when using decorators: https://github.com/apotonick/roar/issues/92
+
 Contributing
 ------------
 
