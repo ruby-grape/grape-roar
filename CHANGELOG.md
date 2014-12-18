@@ -1,3 +1,8 @@
+Next
+------------------
+
+* [#10](https://github.com/dblock/grape-roar/pull/10): Support for Roar decorator - [@sdbondi](https://github.com/sdbondi).
+
 0.1.0 (18/07/2014)
 ------------------
 
