@@ -99,13 +99,13 @@ class ProductRepresenter < Grape::Roar::Decorator
   include Roar::Representer::Feature::Hypermedia
 
   link :self do |opts|
-    "#{request_url(opts)}/#{represented.id}"
+    "#{request(opts).url}/#{represented.id}"
   end
 
   private
 
-  def request_url(opts)
-    Grape::Request.new(opts[:env]).url
+  def request(opts)
+    Grape::Request.new(opts[:env])
   end
 end
 ```
