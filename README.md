@@ -124,6 +124,6 @@ See [CONTRIBUTING](CONTRIBUTING.md).
 Copyright and License
 ---------------------
 
-MIT License, see [LICENSE](http://github.com/dblock/grape-roar/raw/master/LICENSE) for details.
+MIT License, see [LICENSE](LICENSE) for details.
 
-(c) 2012-2014 [Daniel Doubrovkine](http://github.com/dblock), [Art.sy](http://artsy.github.com)
+(c) 2012-2014 [Daniel Doubrovkine](https://github.com/dblock) & Contributors, [Artsy](https://artsy.net)
