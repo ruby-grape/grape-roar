@@ -111,8 +111,6 @@ get 'products' do
 end
 ```
 
-Note this issue when using decorators: https://github.com/apotonick/roar/issues/92
-
 Contributing
 ------------
 
