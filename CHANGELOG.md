@@ -1,6 +1,7 @@
 Next
 ----
 
+* Require Roar 1.0 - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 0.2.0 (12/18/2014)

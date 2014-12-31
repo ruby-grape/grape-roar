@@ -1,6 +1,6 @@
 class UserRepresenter < Grape::Roar::Decorator
-  include Roar::Representer::JSON
-  include Roar::Representer::Feature::Hypermedia
+  include Roar::JSON
+  include Roar::Hypermedia
 
   property :name
   property :id

@@ -1,7 +1,7 @@
 require 'support/order_representer'
 
 class Order
-  include Roar::Representer::JSON
+  include Roar::JSON
   include OrderRepresenter
 
   attr_accessor :id, :client_id, :articles

@@ -24,6 +24,8 @@ gem 'roar'
 gem 'grape-roar'
 ```
 
+If you're upgrading from an older version of this gem, please see [UPGRADING](UPGRADING.md).
+
 Usage
 -----
 
@@ -42,8 +44,8 @@ You can use Grape's `present` keyword after including Grape::Roar::Representer i
 
 ```ruby
 module ProductRepresenter
-  include Roar::Representer::JSON
-  include Roar::Representer::Feature::Hypermedia
+  include Roar::JSON
+  include Roar::Hypermedia
   include Grape::Roar::Representer
 
   property :title
@@ -61,8 +63,8 @@ Presenting collections works the same way. The following example returns an embe
 
 ```ruby
 module ProductsRepresenter
-  include Roar::Representer::JSON::HAL
-  include Roar::Representer::Feature::Hypermedia
+  include Roar::JSON::HAL
+  include Roar::Hypermedia
   include Grape::Roar::Representer
 
   collection :entries, extend: ProductPresenter, as: :products, embedded: true
@@ -81,8 +83,8 @@ The formatter invokes `to_json` on presented objects and provides access to the 
 
 ```ruby
 module ProductRepresenter
-  include Roar::Representer::JSON
-  include Roar::Representer::Feature::Hypermedia
+  include Roar::JSON
+  include Roar::Hypermedia
   include Grape::Roar::Representer
 
   link :self do |opts|
@@ -98,8 +100,8 @@ If you prefer to use a decorator class instead of modules.
 
 ```ruby
 class ProductRepresenter < Grape::Roar::Decorator
-  include Roar::Representer::JSON
-  include Roar::Representer::Feature::Hypermedia
+  include Roar::JSON
+  include Roar::Hypermedia
 
   link :self do |opts|
     "#{request(opts).url}/#{represented.id}"

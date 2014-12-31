@@ -16,5 +16,5 @@ Gem::Specification.new do |gem|
   gem.version       = Grape::Roar::VERSION
 
   gem.add_dependency 'grape'
-  gem.add_dependency 'roar'
+  gem.add_dependency 'roar', '>= 1.0'
 end

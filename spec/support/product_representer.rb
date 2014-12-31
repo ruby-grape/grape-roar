@@ -1,8 +1,8 @@
-require 'roar/representer/json/hal'
+require 'roar/json/hal'
 
 module ProductRepresenter
-  include Roar::Representer::JSON
-  include Roar::Representer::Feature::Hypermedia
+  include Roar::JSON
+  include Roar::Hypermedia
   include Grape::Roar::Representer
 
   property :title

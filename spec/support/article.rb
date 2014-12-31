@@ -1,7 +1,7 @@
 require 'support/article_representer'
 
 class Article
-  include Roar::Representer::JSON
+  include Roar::JSON
   include ArticleRepresenter
 
   attr_accessor :title, :id

@@ -7,8 +7,8 @@ Bundler.setup :default, :test
 require 'grape'
 
 require 'roar'
-require 'roar/representer/json'
-require 'roar/representer/feature/hypermedia'
+require 'roar/json'
+require 'roar/hypermedia'
 
 require 'grape/roar'
 require 'rack/test'
