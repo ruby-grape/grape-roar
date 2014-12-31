@@ -40,7 +40,7 @@ end
 
 ### Use Grape's Present
 
-You can use Grape's `present` keyword after including Grape::Roar::Representer into a representer module.
+Include Grape::Roar::Representer into a representer module *after* any Roar mixins, then use Grape's `present` keyword.
 
 ```ruby
 module ProductRepresenter
