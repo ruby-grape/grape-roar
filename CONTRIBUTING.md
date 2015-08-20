@@ -1,16 +1,16 @@
 Contributing to Grape-Roar
 ==========================
 
-Grape-Roar is work of [many of contributors](https://github.com/dblock/grape-roar/graphs/contributors). You're encouraged to submit [pull requests](https://github.com/dblock/grape-roar/pulls), [propose features and discuss issues](https://github.com/dblock/grape-roar/issues). When in doubt, ask a question in the [Grape Google Group](http://groups.google.com/group/ruby-grape).
+Grape-Roar is work of [many of contributors](https://github.com/ruby-grape/grape-roar/graphs/contributors). You're encouraged to submit [pull requests](https://github.com/ruby-grape/grape-roar/pulls), [propose features and discuss issues](https://github.com/ruby-grape/grape-roar/issues). When in doubt, ask a question in the [Grape Google Group](http://groups.google.com/group/ruby-grape).
 
 #### Fork the Project
 
-Fork the [project on Github](https://github.com/dblock/grape-roar) and check out your copy.
+Fork the [project on Github](https://github.com/ruby-grape/grape-roar) and check out your copy.
 
 ```
 git clone https://github.com/contributor/grape-roar.git
 cd grape-roar
-git remote add upstream https://github.com/dblock/grape-roar.git
+git remote add upstream https://github.com/ruby-grape/grape-roar.git
 ```
 
 #### Create a Topic Branch
@@ -95,7 +95,7 @@ git push origin my-feature-branch -f
 Update the [CHANGELOG](CHANGELOG.md) with the pull request number. A typical entry looks as follows.
 
 ```
-* [#123](https://github.com/dblock/grape-roar/pull/123): Reticulated splines - [@contributor](https://github.com/contributor).
+* [#123](https://github.com/ruby-grape/grape-roar/pull/123): Reticulated splines - [@contributor](https://github.com/contributor).
 ```
 
 Amend your previous commit and force push the changes.

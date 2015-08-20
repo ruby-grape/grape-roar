@@ -2,16 +2,16 @@ Grape::Roar
 ------------
 
 [![Gem Version](http://img.shields.io/gem/v/grape-roar.svg)](http://badge.fury.io/rb/grape-roar)
-[![Build Status](http://img.shields.io/travis/dblock/grape-roar.svg)](https://travis-ci.org/dblock/grape-roar)
-[![Dependency Status](https://gemnasium.com/dblock/grape-roar.svg)](https://gemnasium.com/dblock/grape-roar)
-[![Code Climate](https://codeclimate.com/github/dblock/grape-roar.svg)](https://codeclimate.com/github/dblock/grape-roar)
+[![Build Status](http://img.shields.io/travis/ruby-grape/grape-roar.svg)](https://travis-ci.org/ruby-grape/grape-roar)
+[![Dependency Status](https://gemnasium.com/ruby-grape/grape-roar.svg)](https://gemnasium.com/ruby-grape/grape-roar)
+[![Code Climate](https://codeclimate.com/github/ruby-grape/grape-roar.svg)](https://codeclimate.com/github/ruby-grape/grape-roar)
 
 Use [Roar](https://github.com/apotonick/roar) with [Grape](https://github.com/intridea/grape).
 
 Demo
 ----
 
-The [grape-with-roar](https://github.com/dblock/grape-with-roar) project deployed [here on heroku](http://grape-with-roar.herokuapp.com).
+The [grape-with-roar](https://github.com/ruby-grape/grape-with-roar) project deployed [here on heroku](http://grape-with-roar.herokuapp.com).
 
 Installation
 ------------
