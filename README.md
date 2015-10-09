@@ -67,7 +67,7 @@ module ProductsRepresenter
   include Roar::Hypermedia
   include Grape::Roar::Representer
 
-  collection :entries, extend: ProductPresenter, as: :products, embedded: true
+  collection :entries, extend: ProductRepresenter, as: :products, embedded: true
 end
 ```
 
