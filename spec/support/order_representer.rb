@@ -9,8 +9,9 @@ module OrderRepresenter
 
   collection :articles, class: Article
 
-  link :self do
-    "/order/#{id}"
+  link :self do |opts|
+    request = Grape::Request.new(opts[:env])
+    "#{request.url}"
   end
 
   link :items do

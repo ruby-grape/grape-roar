@@ -8,8 +8,7 @@ module ProductRepresenter
   property :title
   property :id
 
-  link :self do |opts|
-    request = Grape::Request.new(opts[:env])
-    "#{request.url}"
+  link :self do
+    "/product/#{id}"
   end
 end
