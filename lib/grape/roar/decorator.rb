@@ -4,7 +4,7 @@ module Grape
   module Roar
     class Decorator < ::Roar::Decorator
       def self.represent(object, _options = {})
-        new(object)
+        super(object)
       end
     end
   end
