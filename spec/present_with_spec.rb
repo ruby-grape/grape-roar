@@ -50,7 +50,10 @@ describe Grape::Roar do
 
       it 'returns an array of hypermedia representations' do
         get 'products'
-        expect(last_response.body).to eq '[{"title":"Texassee","id":1,"links":[{"rel":"self","href":"/product/1"}]},{"title":"Lonestar","id":2,"links":[{"rel":"self","href":"/product/2"}]}]'
+        expect(last_response.body).to eq [
+          { 'title' => 'Texassee', 'id' => 1, 'links' => [{ 'rel' => 'self', 'href' => '/product/1' }] },
+          { 'title' => 'Lonestar', 'id' => 2, 'links' => [{ 'rel' => 'self', 'href' => '/product/2' }] }
+        ]
       end
     end
   end

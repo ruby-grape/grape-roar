@@ -37,7 +37,10 @@ describe Grape::Roar::Decorator do
 
       it 'returns an array of hypermedia representations' do
         get 'users'
-        expect(last_response.body).to eq '[{"name":"Texassee","id":1,"links":[{"rel":"self","href":"/user/1"}]},{"name":"Lonestar","id":2,"links":[{"rel":"self","href":"/user/2"}]}]'
+        expect(last_response.body).to eq [
+          { 'name' => 'Texassee', 'id' => 1, 'links' => [{ 'rel' => 'self', 'href' => '/user/1' }] },
+          { 'name' => 'Lonestar', 'id' => 2, 'links' => [{ 'rel' => 'self', 'href' => '/user/2' }] }
+        ].to_json
       end
     end
   end
