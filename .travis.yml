@@ -6,6 +6,4 @@ cache: bundler
 
 rvm:
   - ruby-head
-  - 2.1.9
-  - jruby-9.0.0.0
-  - rbx-3.0
+  - 2.2.2
