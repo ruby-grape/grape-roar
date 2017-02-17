@@ -7,3 +7,4 @@ cache: bundler
 rvm:
   - ruby-head
   - 2.2.2
+  - 2.3.1
