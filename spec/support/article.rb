@@ -2,6 +2,7 @@ require 'support/article_representer'
 
 class Article
   include Roar::JSON
+  include Roar::Hypermedia
   include ArticleRepresenter
 
   attr_accessor :title, :id

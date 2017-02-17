@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'rake'
+  gem 'rake', '~> 10.5.0'
 end
 
 group :test do
