@@ -18,4 +18,5 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'grape'
   gem.add_dependency 'roar', '~> 1.1.0'
+  gem.required_ruby_version = '>= 2.1.0'
 end
