@@ -1,3 +1,8 @@
+Next
+----
+
+* Your contribution here.
+
 0.4.0 (02/18/2017)
 ------------------
 * [#21](https://github.com/ruby-grape/grape-roar/pull/21): Fixes serialization issue due to [representable](https://github.com/trailblazer/representable) API change, drop support for Ruby < `2.1.0` - [@mach-kernel](https://github.com/mach-kernel).
