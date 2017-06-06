@@ -1,4 +1,10 @@
 require 'grape/roar/version'
-require 'grape/roar/formatter'
-require 'grape/roar/representer'
-require 'grape/roar/decorator'
+
+module Grape
+  module Roar
+    autoload :Decorator, 'roar/decorator'
+    autoload :Extensions, 'roar/extensions'
+    autoload :Formatter, 'roar/formatter'
+    autoload :Representer, 'roar/representer'
+  end
+end
