@@ -1,7 +1,7 @@
 module Grape
   module Roar
     module Extensions
-      module ActiveModelRelations
+      module RelationalModels
         class << self
           def included(other)
             registered_representers << other

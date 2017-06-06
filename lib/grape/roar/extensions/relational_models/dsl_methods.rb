@@ -1,7 +1,7 @@
 module Grape
   module Roar
     module Extensions
-      module ActiveModelRelations
+      module RelationalModels
         module DSLMethods
           def belongs_to(opts = {})
           end
