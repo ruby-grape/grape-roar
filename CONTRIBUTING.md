@@ -63,10 +63,10 @@ git config --global user.name "Your Name"
 git config --global user.email "contributor@example.com"
 ```
 
-Writing good commit logs is important. A commit log should describe what changed and why.
+Writing good commit logs is important. A commit log should describe what changed and why. Using the `-p` flag while committing will show you the diff of your changes as you add them to the current commit which helps avoid small errors (e.g. syntax or indentation) that sometimes make it through.
 
 ```
-git add ...
+git add -p ...
 git commit
 ```
 

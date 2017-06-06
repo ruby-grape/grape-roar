@@ -2,6 +2,7 @@ require 'support/order_representer'
 
 class Order
   include Roar::JSON
+  include Roar::Hypermedia
   include OrderRepresenter
 
   attr_accessor :id, :client_id, :articles
