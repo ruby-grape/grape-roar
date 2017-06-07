@@ -2,7 +2,7 @@ module Grape
   module Roar
     module Extensions
       module Exceptions
-        class NoReflectionsError < StandardError; end;
+        class InvalidRelationError < StandardError; end;
       end
     end
   end

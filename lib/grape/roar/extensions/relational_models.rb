@@ -5,7 +5,10 @@ module Grape
         class << self
           def included(other)
             registered_representers << other
-            other.include(ActiveModelRelations::DSLMethods)
+            
+            class << other
+              include ActiveModelRelations::DSLMethods
+            end
           end
 
           def registered_representers
