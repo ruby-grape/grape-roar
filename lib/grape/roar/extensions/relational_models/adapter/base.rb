@@ -6,7 +6,7 @@ module Grape
           class Base
             class << self
               def valid_for?(klass)
-                valid_proc.(klass) rescue nil
+                valid_proc.(klass) rescue false
               end
 
               def valid_for(&block)
