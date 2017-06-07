@@ -14,4 +14,6 @@ end
 group :development, :test do
   gem 'rubocop', '0.28.0'
   gem 'nokogiri', '1.6.3.1'
+  gem 'activerecord'
+  gem 'pry'
 end
