@@ -10,31 +10,19 @@ module Grape
           #
           # Move these to the validator
           # validate both properties and the available DSL methods
-          # at the same time!!
-          SINGLE_PROPERTIES = %w(has_one belongs_to embeds_one)
-          COLLECTION_PROPERTIES = %w(
-            has_many has_and_belongs_to_many
-            embeds_many
-          )
+          # at the same time!
 
           def initialize(entity, represented)
             @model_klass = represented.class
           end
 
-          def decorate
-            
-
-            config.each_pair do |relation, opts|
-              raise unless validator.send(
-                "#{opts[:relation_kind]}_valid?", relation
-              )
-
-
-
-              # raise if not valid
-
-            end
-          end
+          # def decorate
+          #   config.each_pair do |relation, opts|
+          #     raise unless validator.send(
+          #       "#{opts[:relation_kind]}_valid?", relation
+          #     )
+          #   end
+          # end
 
           def_delegators :@config, :[], :[]=
 

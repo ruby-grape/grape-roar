@@ -1,7 +1,1 @@
-module Grape
-  module Roar
-    module Extensions
-      
-    end
-  end
-end
+require 'grape/roar/extensions/relational_models'

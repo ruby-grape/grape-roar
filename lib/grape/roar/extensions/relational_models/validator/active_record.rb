@@ -3,7 +3,7 @@ module Grape
     module Extensions
       module RelationalModels
         module Validator
-          class ActiveRecord < Base
+          module ActiveRecord
             def belongs_to_valid?(relation)
               klass.reflections[relation] == 
                 ActiveRecord::Reflection::BelongsToReflection
