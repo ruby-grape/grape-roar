@@ -1,3 +1,5 @@
+require 'grape/roar/extensions/relational_models/validator'
+
 require 'grape/roar/extensions/relational_models/adapter/base'
 require 'grape/roar/extensions/relational_models/adapter/active_record'
 
