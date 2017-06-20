@@ -9,6 +9,10 @@ module Grape
             @entity, @config = entity, {}
           end
 
+          def adapter
+            @adapter ||= Adapter.for(model_klass)
+          end
+
           def decorate(klass)
             @model_klass = klass
 
@@ -41,6 +45,8 @@ module Grape
           def decorate_relation_entity(relation, opts)
             relation = relation.to_s
             base_path = entity.name.deconstantize.safe_constantize
+
+            return unless base_path
 
             to_extend = base_path.constants
               .find { |c| c.to_s.downcase.include?(relation.singularize) }
