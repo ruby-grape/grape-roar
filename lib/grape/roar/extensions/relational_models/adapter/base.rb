@@ -6,7 +6,7 @@ module Grape
           class Base
             class << self
               def valid_for?(klass)
-                valid_proc.(klass) rescue false
+                valid_proc.call(klass) rescue false
               end
 
               def valid_for(&block)
@@ -23,11 +23,11 @@ module Grape
             end
 
             def collection_methods
-              raise NotImplementedError
+              fail NotImplementedError
             end
 
             def single_entity_methods
-              raise NotImplementedError
+              fail NotImplementedError
             end
 
             def validator

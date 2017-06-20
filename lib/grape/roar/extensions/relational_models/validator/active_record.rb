@@ -5,7 +5,7 @@ module Grape
         module Validator
           module ActiveRecord
             def belongs_to_valid?(relation)
-              klass.reflections[relation].is_a?( 
+              klass.reflections[relation].is_a?(
                 ::ActiveRecord::Reflection::BelongsToReflection
               )
             end

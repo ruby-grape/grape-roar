@@ -20,9 +20,9 @@ module Grape
             link :self do |opts|
               request = Grape::Request.new(opts[:env])
               "#{request.base_url}#{request.script_name}/"\
-              "foo"\
-                # "#{name_for_represented(represented)}/"\
-                "#{represented.try(:id)}"
+              'foo'\
+              # "#{name_for_represented(represented)}/"\
+              "#{represented.try(:id)}"
             end
           end
 

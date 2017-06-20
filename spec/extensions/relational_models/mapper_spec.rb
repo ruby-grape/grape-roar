@@ -17,7 +17,7 @@ describe Grape::Roar::Extensions::RelationalModels::Mapper do
       subject.instance_variable_set(:@model_klass, Class.new(ActiveRecord::Base))
     end
 
-    it 'should resolve the correct adapter' do 
+    it 'should resolve the correct adapter' do
       expect(subject.adapter).to be_a(
         Grape::Roar::Extensions::RelationalModels::Adapter::ActiveRecord
       )
@@ -46,11 +46,11 @@ describe Grape::Roar::Extensions::RelationalModels::Mapper do
 
     it 'should correctly decorate the entity' do
       expect(entity).to receive(:collection).with(
-        :test_collection, { relation_kind: :has_many, misc_opt: 'baz' }
+        :test_collection,  relation_kind: :has_many, misc_opt: 'baz'
       )
 
       expect(entity).to receive(:property).with(
-        :test_single, { relation_kind: :belongs_to, misc_opt: 'foo' }
+        :test_single,  relation_kind: :belongs_to, misc_opt: 'foo'
       )
 
       subject.decorate(klass)
@@ -59,10 +59,10 @@ describe Grape::Roar::Extensions::RelationalModels::Mapper do
 
     context 'with an invalid relation type' do
       let(:config) do
-        { test_single: { relation_kind: :has_baz, misc_opt: 'foo' }}
+        { test_single: { relation_kind: :has_baz, misc_opt: 'foo' } }
       end
 
-      it 'will raise the correct exception' do 
+      it 'will raise the correct exception' do
         expect { subject.decorate(klass) }.to raise_error(
           Grape::Roar::Extensions::RelationalModels::Exceptions::InvalidRelationError
         )

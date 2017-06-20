@@ -3,7 +3,7 @@ module Grape
     module Extensions
       module RelationalModels
         module Exceptions
-          class InvalidRelationError < StandardError; end;
+          class InvalidRelationError < StandardError; end
         end
       end
     end

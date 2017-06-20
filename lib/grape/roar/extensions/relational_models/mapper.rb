@@ -17,7 +17,7 @@ module Grape
             @model_klass = klass
 
             config.each_pair do |relation, opts|
-              raise unless adapter.validator.send(
+              fail unless adapter.validator.send(
                 "#{opts[:relation_kind]}_valid?", relation
               ) unless adapter.validator.nil?
 
@@ -31,8 +31,8 @@ module Grape
                 relation, opts
               ) if adapter.single_entity_methods.include?(opts[:relation_kind])
 
-              raise Exceptions::InvalidRelationError, 
-                'No such relation supported'
+              fail Exceptions::InvalidRelationError,
+                   'No such relation supported'
             end
           end
 
@@ -45,12 +45,11 @@ module Grape
           def decorate_relation_entity(relation, opts)
             relation = relation.to_s
             base_path = entity.name.deconstantize.safe_constantize
-
-            return unless base_path
+            return if base_path.nil?
 
             to_extend = base_path.constants
-              .find { |c| c.to_s.downcase.include?(relation.singularize) }
-                                    
+                        .find { |c| c.to_s.downcase.include?(relation.singularize) }
+
             opts.merge!(extend: "#{base_path}::#{to_extend}".safe_constantize)
           end
 

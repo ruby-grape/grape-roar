@@ -8,7 +8,7 @@ module Grape
     module Extensions
       module RelationalModels
         class << self
-          def included(other)            
+          def included(other)
             class << other
               include Extensions::RelationalModels::DSLMethods
             end

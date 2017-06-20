@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'active_record'
 
 describe Grape::Roar::Extensions::RelationalModels::Validator::ActiveRecord do
-
   let(:model_klass) { double }
 
   subject do
@@ -27,7 +26,7 @@ describe Grape::Roar::Extensions::RelationalModels::Validator::ActiveRecord do
     context "##{relation}_valid?" do
       let(:relation_klass) do
         "::ActiveRecord::Reflection::#{relation.camelize}Reflection".constantize
-                                                                    .allocate
+          .allocate
       end
 
       let(:reflections) { { test: relation_klass, fail: Class.new } }
