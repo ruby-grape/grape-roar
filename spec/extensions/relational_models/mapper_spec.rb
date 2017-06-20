@@ -56,5 +56,17 @@ describe Grape::Roar::Extensions::RelationalModels::Mapper do
       subject.decorate(klass)
       expect(subject.instance_variable_get(:@model_klass)).to eql(klass)
     end
+
+    context 'with an invalid relation type' do
+      let(:config) do
+        { test_single: { relation_kind: :has_baz, misc_opt: 'foo' }}
+      end
+
+      it 'will raise the correct exception' do 
+        expect { subject.decorate(klass) }.to raise_error(
+          Grape::Roar::Extensions::RelationalModels::Exceptions::InvalidRelationError
+        )
+      end
+    end
   end
 end
