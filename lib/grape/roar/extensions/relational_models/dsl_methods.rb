@@ -32,7 +32,7 @@ module Grape
 
           def map_relation_link(getter, opts)
             request = Grape::Request.new(opts[:env])
-            represented.send(getter1).map do |other|
+            represented.send(getter).map do |other|
               { href: "#{request.base_url}#{request.script_name}/"\
                       "#{getter}/#{other.id}" }
             end

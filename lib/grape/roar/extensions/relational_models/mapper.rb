@@ -6,17 +6,18 @@ module Grape
           extend Forwardable
 
           def initialize(entity)
-            @entity = entity
-            @config = {}
+            @entity, @config = entity, {}
           end
 
           def decorate(klass)
             @model_klass = klass
 
             config.each_pair do |relation, opts|
-              # raise unless validator.send(
-              #   "#{opts[:relation_kind]}_valid?", relation
-              # )
+              raise unless adapter.validator.send(
+                "#{opts[:relation_kind]}_valid?", relation
+              ) unless adapter.validator.nil?
+
+              decorate_relation_entity(relation, opts) unless opts.key(:extend)
 
               next map_collection(
                 relation, opts
@@ -27,50 +28,34 @@ module Grape
               ) if adapter.single_entity_methods.include?(opts[:relation_kind])
 
               raise Exceptions::InvalidRelationError, 
-                    'No such relation supported'
+                'No such relation supported'
             end
           end
 
           def_delegators :@config, :[], :[]=
 
           private
+
           attr_reader :config, :entity, :model_klass
 
-          def adapter
-            @adapter ||= Adapter.for(model_klass)
-          end
-
-          def decorate_associated_entity(relation, opts)
+          def decorate_relation_entity(relation, opts)
             relation = relation.to_s
             base_path = entity.name.deconstantize.safe_constantize
 
             to_extend = base_path.constants
-                                 .find do |c| 
-                                    c.to_s
-                                     .downcase
-                                     .include?(relation.singularize)
-                                  end
-
-            "#{base_path}::#{to_extend}".safe_constantize
+              .find { |c| c.to_s.downcase.include?(relation.singularize) }
+                                    
+            opts.merge!(extend: "#{base_path}::#{to_extend}".safe_constantize)
           end
 
           def map_single_entity(relation, opts)
-            return entity.send(:link_relation, relation) if opts.fetch(:embedded, false)
-            # more logic here
+            return entity.link_relation(relation) if opts.fetch(:embedded, false)
+            entity.property(relation, opts)
           end
 
           def map_collection(relation, opts)
-            return entity.send(:link_relation, relation) if opts.fetch(:embedded, false)
-            decorate_associated_entity(relation, opts)
-            entity.send(:collection, relation, opts)
-          end
-
-          def process_opts(opts)
-            relation_extend = find_associate_entity(relation)
-            opts.merge!(extend: relation_extend) if relation_extend.present?
-          end
-
-          def validator
+            return entity.link_relation(relation) if opts.fetch(:embedded, false)
+            entity.collection(relation, opts)
           end
         end
       end

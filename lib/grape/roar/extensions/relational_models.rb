@@ -8,17 +8,11 @@ module Grape
     module Extensions
       module RelationalModels
         class << self
-          def included(other)
-            # registered_representers << other
-            
+          def included(other)            
             class << other
               include Extensions::RelationalModels::DSLMethods
             end
           end
-
-          # def registered_representers
-          #   @registered_representers ||= []
-          # end
         end
       end
     end

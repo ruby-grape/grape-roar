@@ -25,4 +25,12 @@ describe Grape::Roar::Extensions::RelationalModels::Adapter::ActiveRecord do
         .to match_array(%i(has_one belongs_to))
     end
   end
+
+  context '#validator' do 
+    it 'should find the AR validator' do 
+      expect(subject.validator).to eql(
+        Grape::Roar::Extensions::RelationalModels::Validator::ActiveRecord
+      )
+    end
+  end
 end
