@@ -9,7 +9,7 @@ module Grape
       module RelationalModels
         module Adapter
           def self.for(klass)
-            adapter = (constants - [:Base]).inject(nil) do |_m, c|
+            (constants - [:Base]).inject(nil) do |_m, c|
               obj = const_get(c)
               obj.valid_for?(klass) ? obj.new(klass) : nil
             end

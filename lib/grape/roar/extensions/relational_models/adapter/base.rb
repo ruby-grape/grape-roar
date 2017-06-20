@@ -23,11 +23,11 @@ module Grape
             end
 
             def collection_methods
-              fail NotImplementedError
+              raise NotImplementedError
             end
 
             def single_entity_methods
-              fail NotImplementedError
+              raise NotImplementedError
             end
 
             def validator

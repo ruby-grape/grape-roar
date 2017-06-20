@@ -18,3 +18,15 @@ Style/Documentation:
 # Configuration parameters: Exclude.
 Style/FileName:
   Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Style/MultilineIfModifier:
+  Enabled: false
+
+Style/RescueModifier:
+  Enabled: false

@@ -22,7 +22,7 @@ module Grape
               "#{request.base_url}#{request.script_name}/"\
               'foo'\
               # "#{name_for_represented(represented)}/"\
-              "#{represented.try(:id)}"
+              represented.try(:id).to_s
             end
           end
 
