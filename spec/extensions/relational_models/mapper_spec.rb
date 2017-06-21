@@ -36,7 +36,6 @@ describe Grape::Roar::Extensions::RelationalModels::Mapper do
     before do
       allow(subject).to receive(:adapter).and_return(adapter)
 
-      allow(adapter).to receive(:validator).and_return(nil)
       allow(adapter).to receive(:collection_methods).and_return(%i(has_many))
       allow(adapter).to receive(:single_entity_methods).and_return(%i(belongs_to))
       allow(entity).to receive(:name).and_return('Foo::Bar')
@@ -45,6 +44,14 @@ describe Grape::Roar::Extensions::RelationalModels::Mapper do
     end
 
     it 'should correctly decorate the entity' do
+      expect(adapter).to receive(:belongs_to_valid?).with(
+        :test_single
+      ).and_return(true)
+
+      expect(adapter).to receive(:has_many_valid?).with(
+        :test_collection
+      ).and_return(true)
+
       expect(entity).to receive(:collection).with(
         :test_collection,  relation_kind: :has_many, misc_opt: 'baz'
       )
@@ -64,7 +71,7 @@ describe Grape::Roar::Extensions::RelationalModels::Mapper do
 
       it 'will raise the correct exception' do
         expect { subject.decorate(klass) }.to raise_error(
-          Grape::Roar::Extensions::RelationalModels::Exceptions::InvalidRelationError
+          Grape::Roar::Extensions::RelationalModels::Exceptions::UnsupportedRelationError
         )
       end
     end

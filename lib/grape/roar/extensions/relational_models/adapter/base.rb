@@ -30,13 +30,6 @@ module Grape
               raise NotImplementedError
             end
 
-            def validator
-              @validator ||= begin
-                klass = self.class.name.demodulize
-                Validator.const_get(klass) if Validator.const_defined?(klass)
-              end
-            end
-
             private
 
             attr_reader :klass

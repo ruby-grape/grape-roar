@@ -18,9 +18,7 @@ module Grape
             @model_klass = klass
 
             config.each_pair do |relation, opts|
-              raise unless adapter.validator.nil? || adapter.validator.send(
-                "#{opts[:relation_kind]}_valid?", relation
-              )
+
 
               decorate_relation_entity(relation, opts) unless opts.key(:extend)
               map_relation(relation, opts)
@@ -50,20 +48,27 @@ module Grape
           end
 
           def map_relation(relation, opts)
-            return map_collection(
-              relation, opts
-            ) if adapter.collection_methods.include?(opts[:relation_kind])
+            if adapter.collection_methods.include?(opts[:relation_kind])
+              map_collection(relation, opts) 
+            elsif adapter.single_entity_methods.include?(opts[:relation_kind])
+              map_single_entity(relation, opts)
+            else
+              raise Exceptions::UnsupportedRelationError,
+                    'No such relation supported'
+            end
 
-            return map_single_entity(
-              relation, opts
-            ) if adapter.single_entity_methods.include?(opts[:relation_kind])
-
-            raise Exceptions::InvalidRelationError, 'No such relation supported'
+            validate_relation(relation, opts[:relation_kind])
           end
 
           def map_single_entity(relation, opts)
             return entity.link_relation(relation) if opts.fetch(:embedded, false)
             entity.property(relation, opts)
+          end
+
+          def validate_relation(relation, kind)
+            validator_method = "#{kind}_valid?"
+            return true unless adapter.respond_to?(validator_method)
+            adapter.send(validator_method, relation)
           end
         end
       end
