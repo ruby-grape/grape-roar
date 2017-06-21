@@ -4,8 +4,6 @@ module Grape
       module RelationalModels
         module Adapter
           class ActiveRecord < Base
-            
-
             valid_for { |klass| klass < ::ActiveRecord::Base }
 
             def collection_methods

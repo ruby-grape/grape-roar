@@ -7,7 +7,6 @@ module Grape
             send(is_collection ? :links : :link, relation) do |opts|
               request = Grape::Request.new(opts[:env])
               data = represented.send(relation)
-              is_collection = data.is_a?(Enumerable)
 
               mapped = Array.wrap(data).map do |object|
                 href = "#{request.base_url}#{request.script_name}/"\
@@ -15,7 +14,7 @@ module Grape
 
                 is_collection ? { href: href } : href
               end
-              
+
               is_collection ? mapped : mapped.first
             end
           end

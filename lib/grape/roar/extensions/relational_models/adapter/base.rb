@@ -26,7 +26,7 @@ module Grape
               raise NotImplementedError
             end
 
-            def name_for_represented(represented)
+            def name_for_represented(_represented)
               raise NotImplementedError
             end
 

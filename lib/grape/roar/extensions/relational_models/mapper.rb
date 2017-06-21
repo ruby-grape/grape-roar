@@ -47,7 +47,7 @@ module Grape
 
           def map_relation(relation, opts)
             if adapter.collection_methods.include?(opts[:relation_kind])
-              map_collection(relation, opts) 
+              map_collection(relation, opts)
             elsif adapter.single_entity_methods.include?(opts[:relation_kind])
               opts.merge!(:relation_is_collection, true)
               map_single_entity(relation, opts)
