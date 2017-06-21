@@ -23,17 +23,7 @@ module Grape
               )
 
               decorate_relation_entity(relation, opts) unless opts.key(:extend)
-
-              next map_collection(
-                relation, opts
-              ) if adapter.collection_methods.include?(opts[:relation_kind])
-
-              next map_single_entity(
-                relation, opts
-              ) if adapter.single_entity_methods.include?(opts[:relation_kind])
-
-              raise Exceptions::InvalidRelationError,
-                    'No such relation supported'
+              map_relation(relation, opts)
             end
           end
 
@@ -54,14 +44,26 @@ module Grape
             opts.merge!(extend: "#{base_path}::#{to_extend}".safe_constantize)
           end
 
-          def map_single_entity(relation, opts)
-            return entity.link_relation(relation) if opts.fetch(:embedded, false)
-            entity.property(relation, opts)
-          end
-
           def map_collection(relation, opts)
             return entity.link_relation(relation) if opts.fetch(:embedded, false)
             entity.collection(relation, opts)
+          end
+
+          def map_relation(relation, opts)
+            return map_collection(
+              relation, opts
+            ) if adapter.collection_methods.include?(opts[:relation_kind])
+
+            return map_single_entity(
+              relation, opts
+            ) if adapter.single_entity_methods.include?(opts[:relation_kind])
+
+            raise Exceptions::InvalidRelationError, 'No such relation supported'
+          end
+
+          def map_single_entity(relation, opts)
+            return entity.link_relation(relation) if opts.fetch(:embedded, false)
+            entity.property(relation, opts)
           end
         end
       end
