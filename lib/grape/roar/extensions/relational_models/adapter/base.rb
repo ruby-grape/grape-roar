@@ -26,6 +26,10 @@ module Grape
               raise NotImplementedError
             end
 
+            def name_for_represented(represented)
+              raise NotImplementedError
+            end
+
             def single_entity_methods
               raise NotImplementedError
             end

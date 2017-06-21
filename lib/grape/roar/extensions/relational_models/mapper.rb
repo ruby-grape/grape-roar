@@ -18,8 +18,6 @@ module Grape
             @model_klass = klass
 
             config.each_pair do |relation, opts|
-
-
               decorate_relation_entity(relation, opts) unless opts.key(:extend)
               map_relation(relation, opts)
             end
@@ -43,7 +41,7 @@ module Grape
           end
 
           def map_collection(relation, opts)
-            return entity.link_relation(relation) if opts.fetch(:embedded, false)
+            return entity.link_relation(relation, true) unless opts.fetch(:embedded, false)
             entity.collection(relation, opts)
           end
 
@@ -51,6 +49,7 @@ module Grape
             if adapter.collection_methods.include?(opts[:relation_kind])
               map_collection(relation, opts) 
             elsif adapter.single_entity_methods.include?(opts[:relation_kind])
+              opts.merge!(:relation_is_collection, true)
               map_single_entity(relation, opts)
             else
               raise Exceptions::UnsupportedRelationError,
@@ -61,7 +60,7 @@ module Grape
           end
 
           def map_single_entity(relation, opts)
-            return entity.link_relation(relation) if opts.fetch(:embedded, false)
+            return entity.link_relation(relation) unless opts.fetch(:embedded, false)
             entity.property(relation, opts)
           end
 
