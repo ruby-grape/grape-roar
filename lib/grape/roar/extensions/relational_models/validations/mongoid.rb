@@ -4,6 +4,8 @@ module Grape
       module RelationalModels
         module Validations
           module Mongoid
+            include Validations::Misc
+
             def belongs_to_valid?(relation)
               relation = klass.reflect_on_association(relation)
 
@@ -82,11 +84,6 @@ module Grape
               )
             end
             # rubocop:enable Style/PredicateName
-
-            def invalid_relation(valid, invalid)
-              raise Exceptions::InvalidRelationError,
-                    "Expected #{valid}, got #{invalid}!"
-            end
           end
         end
       end

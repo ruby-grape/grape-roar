@@ -53,7 +53,7 @@ describe Grape::Roar::Extensions::RelationalModels::Validations::Mongoid do
       context "##{test_method}_valid? validates the relation" do
         let(:test_method) { test_method }
 
-        it 'correctly validates the relation' do 
+        it 'properly validates the relation' do 
           expect(subject.send("#{test_method}_valid?", :test_rel)).to eql(true)
 
           expect { 
@@ -74,7 +74,7 @@ describe Grape::Roar::Extensions::RelationalModels::Validations::Mongoid do
       context "##{test_method}_valid? validates the relation" do
         let(:test_method) { test_method }
 
-        it 'correctly validates the relation' do 
+        it 'properly validates the relation' do 
           expect(subject.send("#{test_method}_valid?", :test_rel)).to eql(true)
 
           expect { 
