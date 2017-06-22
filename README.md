@@ -121,6 +121,57 @@ get 'products' do
 end
 ```
 
+### Relational Extensions
+
+If you use either `ActiveRecord` or `Mongoid`, it is possible to represent that relationship using the `#relation` DSL method. 
+
+#### Example Models
+
+```ruby
+  class Bar < ActiveRecord::Base
+    belongs_to :foo
+  end
+
+  class Foo < ActiveRecord::Base
+    has_many :bars  
+  end
+```
+
+#### Designing Decorators
+
+Arguments passed to `#relation` are forwarded to `roar`. Single member relations (e.g. `belongs_to`) are represented using `property`, collections are represented using `collection`, so as such, use only arguments that apply.
+
+If `embedded` is `false`, a `_links` entry will be added. Otherwise, the extensions attempt to look up the correct representer module/class for the objects (e.g. we infer the `extend` argument). You can always specify it yourself.
+
+`#link_self` decorates the entity with a RESTful route to the current resource. (TBD: Mapping these strings for custom use cases / need mapper configuration for this PR now too)
+
+```ruby
+class FooEntity < Grape::Roar::Decorator
+  include Roar::JSON
+  include Roar::JSON::HAL
+  include Roar::Hypermedia
+
+  include Grape::Roar::Extensions::RelationalModels
+
+  relation :belongs_to, :bar, embedded: true
+
+  link_self
+end
+
+class BarEntity < Grape::Roar::Decorator
+  include Roar::JSON
+  include Roar::JSON::HAL
+  include Roar::Hypermedia
+
+  include Grape::Roar::Extensions::RelationalModels
+
+  relation :has_many, :bars, embedded: false
+
+  link_self
+end
+```
+
+
 Contributing
 ------------
 
