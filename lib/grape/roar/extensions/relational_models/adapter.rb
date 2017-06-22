@@ -1,5 +1,6 @@
 require 'grape/roar/extensions/relational_models/adapter/base'
 require 'grape/roar/extensions/relational_models/adapter/active_record'
+require 'grape/roar/extensions/relational_models/adapter/mongoid'
 
 module Grape
   module Roar
