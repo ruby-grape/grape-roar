@@ -4,6 +4,8 @@ module Grape
       module RelationalModels
         module Adapter
           class Mongoid < Base
+            include Validations::Mongoid
+
             valid_for { |klass| klass < ::Mongoid::Document }
 
             def collection_methods

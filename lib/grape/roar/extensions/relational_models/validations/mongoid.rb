@@ -11,9 +11,33 @@ module Grape
                 ::Mongoid::Relations::Referenced::In
               )
 
-              raise Exceptions::InvalidRelationError,
-                    'Expected Mongoid::Relations::Referenced::In'\
-                    "got #{relation[:relation]}!"
+              invalid_relation(
+                ::Mongoid::Relations::Referenced::In, relation[:relation]
+              )
+            end
+
+            def embeds_many_valid?(relation)
+              relation = klass.reflect_on_association(relation)
+
+              return true if relation[:relation] == (
+                ::Mongoid::Relations::Embedded::Many
+              )
+
+              invalid_relation(
+                ::Mongoid::Relations::Embedded::Many, relation[:relation]
+              )
+            end
+
+            def embeds_one_valid?(relation)
+              relation = klass.reflect_on_association(relation)
+
+              return true if relation[:relation] == (
+                ::Mongoid::Relations::Embedded::One
+              )
+
+              invalid_relation(
+                ::Mongoid::Relations::Embedded::One, relation[:relation]
+              )
             end
 
             # rubocop:disable Style/PredicateName
@@ -24,11 +48,45 @@ module Grape
                 ::Mongoid::Relations::Referenced::Many
               )
 
-              raise Exceptions::InvalidRelationError,
-                    'Expected Mongoid::Relations::Referenced::Many'\
-                    "got #{relation[:relation]}!"
+              invalid_relation(
+                ::Mongoid::Relations::Referenced::Many, relation[:relation]
+              )
             end
             # rubocop:enable Style/PredicateName
+
+            # rubocop:disable Style/PredicateName
+            def has_and_belongs_to_many_valid?(relation)
+              relation = klass.reflect_on_association(relation)
+
+              return true if relation[:relation] == (
+                ::Mongoid::Relations::Referenced::ManyToMany
+              )
+
+              invalid_relation(
+                ::Mongoid::Relations::Referenced::ManyToMany,
+                relation[:relation]
+              )
+            end
+            # rubocop:enable Style/PredicateName
+
+            # rubocop:disable Style/PredicateName
+            def has_one_valid?(relation)
+              relation = klass.reflect_on_association(relation)
+
+              return true if relation[:relation] == (
+                ::Mongoid::Relations::Referenced::One
+              )
+
+              invalid_relation(
+                ::Mongoid::Relations::Referenced::One, relation[:relation]
+              )
+            end
+            # rubocop:enable Style/PredicateName
+
+            def invalid_relation(valid, invalid)
+              raise Exceptions::InvalidRelationError,
+                    "Expected #{valid}, got #{invalid}!"
+            end
           end
         end
       end
