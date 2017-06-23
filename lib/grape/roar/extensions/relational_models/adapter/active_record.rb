@@ -4,8 +4,7 @@ module Grape
       module RelationalModels
         module Adapter
           class ActiveRecord < Base
-            # TODO: broken in integration
-            # include Validations::ActiveRecord
+            include Validations::ActiveRecord
 
             valid_for { |klass| klass < ::ActiveRecord::Base }
 

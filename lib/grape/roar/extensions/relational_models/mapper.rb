@@ -66,7 +66,7 @@ module Grape
           def validate_relation(relation, kind)
             validator_method = "#{kind}_valid?"
             return true unless adapter.respond_to?(validator_method)
-            adapter.send(validator_method, relation)
+            adapter.send(validator_method, relation.to_s)
           end
         end
       end
