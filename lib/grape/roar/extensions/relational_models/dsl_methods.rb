@@ -26,6 +26,27 @@ module Grape
             end
           end
 
+          def map_base_url(&block)
+            @map_base_url ||= if block.nil?
+                                proc do |opts|
+                                  request = Grape::Request.new(opts[:env])
+                                  "#{request.base_url}#{request.script_name}"
+                                end
+                              else
+                                block
+                              end
+          end
+
+          def map_resource_path(&block)
+            @map_resource_path ||= if block.nil?
+                                     proc do |_opts, object, relation_name|
+                                       "#{relation_name}/#{object.id}"
+                                     end
+                                   else
+                                     block
+                                   end
+          end
+
           def name_for_represented(represented)
             relational_mapper.adapter.name_for_represented(represented)
           end
@@ -37,27 +58,6 @@ module Grape
           def represent(object, _options)
             map_relations(object) unless relations_mapped
             super
-          end
-
-          def map_resource_path(&block)
-            @map_resource_path ||= if block.nil?
-                                     proc do |_opts, object, relation|
-                                       "#{relation}/#{object.id}"
-                                     end
-                                   else
-                                     block
-                                   end
-          end
-
-          def map_base_url(&block)
-            @map_base_url ||= if block.nil?
-                                proc do |opts|
-                                  request = Grape::Request.new(opts[:env])
-                                  "#{request.base_url}#{request.script_name}"
-                                end
-                              else
-                                block
-                              end
           end
 
           private

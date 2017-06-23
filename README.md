@@ -123,7 +123,7 @@ end
 
 ### Relational Extensions
 
-If you use either `ActiveRecord` or `Mongoid`, it is possible to represent that relationship using the `#relation` DSL method. 
+If you use either `ActiveRecord` or `Mongoid`, it is possible to represent that relationship using the `#relation` DSL method.
 
 #### Example Models
 
@@ -141,9 +141,10 @@ If you use either `ActiveRecord` or `Mongoid`, it is possible to represent that 
 
 Arguments passed to `#relation` are forwarded to `roar`. Single member relations (e.g. `belongs_to`) are represented using `property`, collections are represented using `collection`, so as such, use only arguments that apply.
 
-If `embedded` is `false`, a `_links` entry will be added. Otherwise, the extensions attempt to look up the correct representer module/class for the objects (e.g. we infer the `extend` argument). You can always specify it yourself.
+If `embedded` is `false`, a `_links` entry will be added. `#link_self` decorates the entity with a RESTful route to the current resource. A default base URI is constructed from a `Grape::Request` by concatenating the `#base_url` and `#script_name` properties. The resource path is extracted from the name of the relation.
 
-`#link_self` decorates the entity with a RESTful route to the current resource. (TBD: Mapping these strings for custom use cases / need mapper configuration for this PR now too)
+Otherwise, the extensions attempt to look up the correct representer module/class for the objects (e.g. we infer the `extend` argument). You can always specify the correct representer to use on your own. 
+
 
 ```ruby
 class FooEntity < Grape::Roar::Decorator
@@ -171,6 +172,43 @@ class BarEntity < Grape::Roar::Decorator
 end
 ```
 
+#### Advanced Usage
+
+##### Override base URI mappings
+```ruby
+class BarEntity < Grape::Roar::Decorator
+  include Roar::JSON
+  include Roar::JSON::HAL
+  include Roar::Hypermedia
+
+  include Grape::Roar::Extensions::RelationalModels
+
+  # These are the same opts that are given to you previous examples
+  map_base_url do |opts|
+    "some_uri_here"
+  end
+
+  relation :has_many, :bars, embedded: false
+end
+```
+
+##### Override resource URI mappings
+```ruby
+class BarEntity < Grape::Roar::Decorator
+  include Roar::JSON
+  include Roar::JSON::HAL
+  include Roar::Hypermedia
+
+  include Grape::Roar::Extensions::RelationalModels
+
+  # This is our default implementation
+  map_resource_path do |_opts, object, relation_name|
+    "#{relation_name}/#{object.id}"
+  end
+
+  relation :has_many, :bars, embedded: false
+end
+```
 
 Contributing
 ------------
