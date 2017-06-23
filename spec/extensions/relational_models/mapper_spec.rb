@@ -27,8 +27,13 @@ describe Grape::Roar::Extensions::RelationalModels::Mapper do
   context '#decorate' do
     let(:adapter) { double }
     let(:config) do
-      { test_single: { relation_kind: :belongs_to, misc_opt: 'foo' },
-        test_collection: { relation_kind: :has_many, misc_opt: 'baz' } }
+      { test_single: { 
+          relation_kind: :belongs_to, embedded: true, misc_opt: 'foo' 
+        },
+        test_collection: {
+          relation_kind: :has_many, embedded: true, misc_opt: 'baz'
+        } 
+      }
     end
 
     let(:klass) { double }
@@ -53,11 +58,11 @@ describe Grape::Roar::Extensions::RelationalModels::Mapper do
       ).and_return(true)
 
       expect(entity).to receive(:collection).with(
-        :test_collection,  relation_kind: :has_many, misc_opt: 'baz'
+        :test_collection, config[:test_collection]
       )
 
       expect(entity).to receive(:property).with(
-        :test_single,  relation_kind: :belongs_to, misc_opt: 'foo'
+        :test_single, config[:test_single]
       )
 
       subject.decorate(klass)
