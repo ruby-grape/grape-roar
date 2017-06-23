@@ -50,11 +50,11 @@ describe Grape::Roar::Extensions::RelationalModels::Mapper do
 
     it 'should correctly decorate the entity' do
       expect(adapter).to receive(:belongs_to_valid?).with(
-        :test_single
+        'test_single'
       ).and_return(true)
 
       expect(adapter).to receive(:has_many_valid?).with(
-        :test_collection
+        'test_collection'
       ).and_return(true)
 
       expect(entity).to receive(:collection).with(

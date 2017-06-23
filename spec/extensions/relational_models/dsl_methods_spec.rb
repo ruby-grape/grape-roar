@@ -1,5 +1,3 @@
-require 'pry'
-
 describe Grape::Roar::Extensions::RelationalModels::DSLMethods do
   subject do 
     Class.new.tap { |c| c.singleton_class.include(described_class) }
@@ -67,6 +65,53 @@ describe Grape::Roar::Extensions::RelationalModels::DSLMethods do
       expect(relational_mapper).to receive(:[]=).with(
         relation_name, opts.merge(relation_kind: relation_kind)
       )
+    end
+  end
+
+  context '#map_base_url' do
+    let(:grape_request) do
+      OpenStruct.new(base_url: 'foo/', script_name: 'v1')
+    end
+
+    let(:opts) { { env: double } }
+
+    before do 
+      allow(Grape::Request).to receive(:new).with(opts[:env])
+                                             .and_return(grape_request)
+    end
+
+    it 'provides a default implementation' do 
+      expect(subject.map_base_url.(opts)).to eql('foo/v1')
+    end
+
+    context 'with user provided block' do 
+      let(:block) { proc {} }
+
+      it 'should return the user block' do
+        subject.map_base_url(&block)
+        expect(subject.map_base_url).to eql(block)
+      end
+    end
+  end
+
+  context '#map_resource_path' do
+    let(:object)   { OpenStruct.new(id: 4) }
+    let(:opts)     { double }
+    let(:relation) { 'baz' }
+
+    it 'provides a default implementation' do 
+      expect(
+        subject.map_resource_path.(opts, object, relation)
+      ).to eql('baz/4')
+    end
+
+    context 'with user provided block' do 
+      let(:block) { proc {} }
+
+      it 'should return the user block' do
+        subject.map_resource_path(&block)
+        expect(subject.map_resource_path).to eql(block)
+      end
     end
   end
 
