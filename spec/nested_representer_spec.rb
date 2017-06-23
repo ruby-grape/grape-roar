@@ -1,20 +1,9 @@
 require 'spec_helper'
 
 describe Grape::Roar do
-  subject do
-    Class.new(Grape::API)
-  end
-
-  before do
-    subject.format :json
-    subject.formatter :json, Grape::Formatter::Roar
-  end
-
-  def app
-    subject
-  end
-
   context 'nested representer' do
+    include_context 'Grape API App'
+
     before do
       subject.get('/order/:id') do
         order = Order.new(id: params[:id], client_id: 42)

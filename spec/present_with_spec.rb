@@ -1,18 +1,7 @@
 require 'spec_helper'
 
 describe Grape::Roar do
-  subject do
-    Class.new(Grape::API)
-  end
-
-  before do
-    subject.format :json
-    subject.formatter :json, Grape::Formatter::Roar
-  end
-
-  def app
-    subject
-  end
+  include_context 'Grape API App'
 
   context 'using present' do
     before do

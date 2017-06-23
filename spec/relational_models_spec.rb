@@ -9,4 +9,10 @@ describe Grape::Roar::Extensions::RelationalModels do
       )
     end
   end
+
+  context 'with activerecord' do
+  end
+
+  context 'with mongoid' do 
+  end
 end
