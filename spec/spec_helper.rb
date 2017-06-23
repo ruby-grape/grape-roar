@@ -12,6 +12,13 @@ require 'roar/hypermedia'
 
 require 'grape/roar'
 require 'rack/test'
+
+# For Relational Extension Tests
+require 'mongoid'
+
+ENV['MONGOID_ENV'] ||= 'test'
+Mongoid.load!('./spec/config/mongoid.yml')
+
 require 'rspec'
 
 RSpec.configure do |config|

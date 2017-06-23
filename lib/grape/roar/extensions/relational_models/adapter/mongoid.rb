@@ -16,7 +16,7 @@ module Grape
 
             def name_for_represented(represented)
               klass_name = if represented.instance_of?(
-                Mongoid::Relations::Targets::Enumerable
+                ::Mongoid::Relations::Targets::Enumerable
               )
                              represented.klass.name
                            else

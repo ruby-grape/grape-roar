@@ -31,7 +31,9 @@ module Grape
 
           def decorate_relation_entity(relation, opts)
             relation = relation.to_s
-            base_path = entity.name.deconstantize.safe_constantize
+            base_path = entity.name.deconstantize
+            base_path = base_path.empty? ? Object : base_path.safe_constantize
+
             return if base_path.nil?
 
             to_extend = base_path.constants
