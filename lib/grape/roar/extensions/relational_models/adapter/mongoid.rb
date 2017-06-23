@@ -18,10 +18,10 @@ module Grape
               klass_name = if represented.instance_of?(
                 Mongoid::Relations::Targets::Enumerable
               )
-                represented.klass.name
-              else
-                represented.class.name
-              end
+                             represented.klass.name
+                           else
+                             represented.class.name
+                           end
               klass_name.demodulize.pluralize.downcase
             end
 

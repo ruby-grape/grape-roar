@@ -5,13 +5,11 @@ module Grape
         module DSLMethods
           def link_relation(relation, is_collection = false)
             send(is_collection ? :links : :link, relation) do |opts|
-              request = Grape::Request.new(opts[:env])
               data = represented.send(relation)
 
               mapped = Array.wrap(data).map do |object|
-                href = [ self.class.map_base_url.(opts),
-                         self.class.map_resource_path.(opts, object, relation)
-                       ].join('/')
+                href = [self.class.map_base_url.call(opts),
+                        self.class.map_resource_path.call(opts, object, relation)].join('/')
 
                 is_collection ? { href: href } : href
               end
@@ -23,8 +21,8 @@ module Grape
           def link_self
             link :self do |opts|
               resource_path = self.class.name_for_represented(represented)
-              [ self.class.map_base_url.(opts),
-                "#{resource_path}/#{represented.try(:id)}" ].join('/')
+              [self.class.map_base_url.call(opts),
+               "#{resource_path}/#{represented.try(:id)}"].join('/')
             end
           end
 
@@ -43,20 +41,23 @@ module Grape
 
           def map_resource_path(&block)
             @map_resource_path ||= if block.nil?
-              proc { |opts, object, relation| "#{relation}/#{object.id}" }
-            else
-            end
+                                     proc do |_opts, object, relation|
+                                       "#{relation}/#{object.id}"
+                                     end
+                                   else
+                                     block
+                                   end
           end
 
           def map_base_url(&block)
             @map_base_url ||= if block.nil?
-              proc do |opts|
-                request = Grape::Request.new(opts[:env])
-                "#{request.base_url}#{request.script_name}"
-              end
-            else
-              block
-            end
+                                proc do |opts|
+                                  request = Grape::Request.new(opts[:env])
+                                  "#{request.base_url}#{request.script_name}"
+                                end
+                              else
+                                block
+                              end
           end
 
           private

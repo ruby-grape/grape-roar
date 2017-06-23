@@ -9,9 +9,8 @@ module Grape
             def belongs_to_valid?(relation)
               relation = klass.reflect_on_association(relation)
 
-              return true if relation[:relation] == (
-                ::Mongoid::Relations::Referenced::In
-              )
+              return true if relation[:relation] ==
+                             ::Mongoid::Relations::Referenced::In
 
               invalid_relation(
                 ::Mongoid::Relations::Referenced::In, relation[:relation]
@@ -21,9 +20,8 @@ module Grape
             def embeds_many_valid?(relation)
               relation = klass.reflect_on_association(relation)
 
-              return true if relation[:relation] == (
-                ::Mongoid::Relations::Embedded::Many
-              )
+              return true if relation[:relation] ==
+                             ::Mongoid::Relations::Embedded::Many
 
               invalid_relation(
                 ::Mongoid::Relations::Embedded::Many, relation[:relation]
@@ -33,9 +31,8 @@ module Grape
             def embeds_one_valid?(relation)
               relation = klass.reflect_on_association(relation)
 
-              return true if relation[:relation] == (
-                ::Mongoid::Relations::Embedded::One
-              )
+              return true if relation[:relation] ==
+                             ::Mongoid::Relations::Embedded::One
 
               invalid_relation(
                 ::Mongoid::Relations::Embedded::One, relation[:relation]
@@ -46,9 +43,8 @@ module Grape
             def has_many_valid?(relation)
               relation = klass.reflect_on_association(relation)
 
-              return true if relation[:relation] == (
-                ::Mongoid::Relations::Referenced::Many
-              )
+              return true if relation[:relation] ==
+                             ::Mongoid::Relations::Referenced::Many
 
               invalid_relation(
                 ::Mongoid::Relations::Referenced::Many, relation[:relation]
@@ -60,9 +56,8 @@ module Grape
             def has_and_belongs_to_many_valid?(relation)
               relation = klass.reflect_on_association(relation)
 
-              return true if relation[:relation] == (
-                ::Mongoid::Relations::Referenced::ManyToMany
-              )
+              return true if relation[:relation] ==
+                             ::Mongoid::Relations::Referenced::ManyToMany
 
               invalid_relation(
                 ::Mongoid::Relations::Referenced::ManyToMany,
@@ -75,9 +70,8 @@ module Grape
             def has_one_valid?(relation)
               relation = klass.reflect_on_association(relation)
 
-              return true if relation[:relation] == (
-                ::Mongoid::Relations::Referenced::One
-              )
+              return true if relation[:relation] ==
+                             ::Mongoid::Relations::Referenced::One
 
               invalid_relation(
                 ::Mongoid::Relations::Referenced::One, relation[:relation]
