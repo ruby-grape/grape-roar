@@ -137,7 +137,7 @@ If you use either `ActiveRecord` or `Mongoid`, it is possible to represent that 
   end
 ```
 
-#### Designing Decorators
+#### Designing Representers
 
 Arguments passed to `#relation` are forwarded to `roar`. Single member relations (e.g. `belongs_to`) are represented using `property`, collections are represented using `collection`, so as such, use only arguments that apply.
 
@@ -171,6 +171,8 @@ class BarEntity < Grape::Roar::Decorator
   link_self
 end
 ```
+
+Although this example uses `Grape::Roar::Decorator`, you can also use a module as show in prior examples above. If doing so, you no longer have to mix in `Grape::Roar::Representer`. 
 
 #### Advanced Usage
 
