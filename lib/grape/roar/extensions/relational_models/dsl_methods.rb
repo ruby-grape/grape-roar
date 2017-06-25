@@ -3,13 +3,13 @@ module Grape
     module Extensions
       module RelationalModels
         module DSLMethods
-          def link_relation(relation, is_collection = false)
+          def link_relation(relation, is_collection = false, dsl = self)
             send(is_collection ? :links : :link, relation) do |opts|
               data = represented.send(relation)
 
               mapped = Array.wrap(data).map do |object|
-                href = [self.class.map_base_url.call(opts),
-                        self.class.map_resource_path.call(opts, object, relation)].join('/')
+                href = [dsl.map_base_url.call(opts),
+                        dsl.map_resource_path.call(opts, object, relation)].join('/')
 
                 is_collection ? { href: href } : href
               end
@@ -19,11 +19,7 @@ module Grape
           end
 
           def link_self
-            link :self do |opts|
-              resource_path = self.class.name_for_represented(represented)
-              [self.class.map_base_url.call(opts),
-               "#{resource_path}/#{represented.try(:id)}"].join('/')
-            end
+            relational_mapper[:self] = { relation_kind: :self }
           end
 
           def map_base_url(&block)
@@ -35,6 +31,14 @@ module Grape
                               else
                                 block
                               end
+          end
+
+          def map_self_url(dsl = self)
+            link :self do |opts|
+              resource_path = dsl.name_for_represented(represented)
+              [dsl.map_base_url.call(opts),
+               "#{resource_path}/#{represented.try(:id)}"].join('/')
+            end
           end
 
           def map_resource_path(&block)
@@ -56,8 +60,9 @@ module Grape
           end
 
           def represent(object, _options)
+            object.extend(self) unless is_a?(Class)
             map_relations(object) unless relations_mapped
-            super
+            is_a?(Class) ? super : object
           end
 
           private

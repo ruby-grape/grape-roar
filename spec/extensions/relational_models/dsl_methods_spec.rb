@@ -27,14 +27,6 @@ describe Grape::Roar::Extensions::RelationalModels::DSLMethods do
     end
   end
 
-  context '#link_self' do
-    after { subject.link_self }
-
-    it 'calls the method correctly' do
-      expect(subject).to receive(:link).with(:self)
-    end
-  end
-
   context '#name_for_represented' do
     let(:represented) { double }
 
@@ -47,26 +39,39 @@ describe Grape::Roar::Extensions::RelationalModels::DSLMethods do
     end
   end
 
-  context '#relation' do 
+  context 'with relational mapper' do 
     let(:relational_mapper) { double }
-    let(:relation_name) { double }
-    let(:relation_kind) { :has_many }
-
-    let(:opts) { {} }
 
     before do 
       allow(subject).to receive(:relational_mapper)
                     .and_return(relational_mapper)
     end
 
-    after { subject.relation(relation_kind, relation_name, opts) }
+    context '#relation' do 
+      let(:relation_name) { double }
+      let(:relation_kind) { :has_many }
+      let(:opts) { {} }
 
-    it 'correctly stores the info in mapper' do
-      expect(relational_mapper).to receive(:[]=).with(
-        relation_name, opts.merge(relation_kind: relation_kind)
-      )
+      after { subject.relation(relation_kind, relation_name, opts) }
+
+      it 'correctly stores the info in mapper' do
+        expect(relational_mapper).to receive(:[]=).with(
+          relation_name, opts.merge(relation_kind: relation_kind)
+        )
+      end
+    end
+
+    context '#link_self' do
+      after { subject.link_self }
+
+      it 'calls the method correctly' do
+        expect(relational_mapper).to receive(:[]=).with(
+          :self, { relation_kind: :self }
+        )
+      end
     end
   end
+
 
   context '#map_base_url' do
     let(:grape_request) do
@@ -91,6 +96,14 @@ describe Grape::Roar::Extensions::RelationalModels::DSLMethods do
         subject.map_base_url(&block)
         expect(subject.map_base_url).to eql(block)
       end
+    end
+  end
+
+  context '#map_self_url' do 
+    after { subject.map_self_url }
+
+    it 'calls the correct method' do 
+      expect(subject).to receive(:link).with(:self)
     end
   end
 

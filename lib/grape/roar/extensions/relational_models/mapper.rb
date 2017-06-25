@@ -18,7 +18,7 @@ module Grape
             @model_klass = klass
 
             config.each_pair do |relation, opts|
-              decorate_relation_entity(relation, opts) unless opts.key(:extend)
+              decorate_relation_entity(relation.to_s, opts) unless opts.key(:extend)
               map_relation(relation, opts)
             end
           end
@@ -30,7 +30,6 @@ module Grape
           attr_reader :config, :entity, :model_klass
 
           def decorate_relation_entity(relation, opts)
-            relation = relation.to_s
             base_path = entity.name.deconstantize
             base_path = base_path.empty? ? Object : base_path.safe_constantize
 
@@ -48,19 +47,21 @@ module Grape
           end
 
           def map_relation(relation, opts)
-            if adapter.collection_methods.include?(opts[:relation_kind])
-              map_collection(relation, opts)
-            elsif adapter.single_entity_methods.include?(opts[:relation_kind])
-              map_single_entity(relation, opts)
-            else
-              raise Exceptions::UnsupportedRelationError,
-                    'No such relation supported'
-            end
+            map = if adapter.collection_methods.include?(opts[:relation_kind])
+                    :map_collection
+                  elsif adapter.single_entity_methods
+                               .include?(opts[:relation_kind]) || opts[:relation_kind] == :self
+                    :map_single_entity
+                  else raise Exceptions::UnsupportedRelationError,
+                             'No such relation supported'
+                  end
 
+            send(map, relation, opts)
             validate_relation(relation, opts[:relation_kind])
           end
 
           def map_single_entity(relation, opts)
+            return entity.map_self_url if opts[:relation_kind] == :self
             return entity.link_relation(relation) unless opts.fetch(:embedded, false)
             entity.property(relation, opts)
           end
