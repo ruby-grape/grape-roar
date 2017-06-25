@@ -18,7 +18,7 @@ module Grape
             @model_klass = klass
 
             config.each_pair do |relation, opts|
-              decorate_relation_entity(relation.to_s, opts) unless opts.key(:extend)
+              representer_for(relation.to_s, opts) unless opts.key(:extend)
               map_relation(relation, opts)
             end
           end
@@ -29,16 +29,12 @@ module Grape
 
           attr_reader :config, :entity, :model_klass
 
-          def decorate_relation_entity(relation, opts)
-            base_path = entity.name.deconstantize
-            base_path = base_path.empty? ? Object : base_path.safe_constantize
-
-            return if base_path.nil?
-
-            to_extend = base_path.constants
-                                 .find { |c| c.to_s.downcase.include?(relation.singularize) }
-
-            opts.merge!(extend: "#{base_path}::#{to_extend}".safe_constantize)
+          def find_representer(base, target_name, const)
+            const = base.const_get(const)
+            return false if const.nil? || !const.is_a?(Module)
+            (const < ::Roar::JSON::HAL) && const.name
+                                                .downcase
+                                                .include?(target_name.singularize)
           end
 
           def map_collection(relation, opts)
@@ -64,6 +60,19 @@ module Grape
             return entity.map_self_url if opts[:relation_kind] == :self
             return entity.link_relation(relation) unless opts.fetch(:embedded, false)
             entity.property(relation, opts)
+          end
+
+          def representer_for(relation, opts)
+            base_path = entity.name.deconstantize
+            base_path = base_path.empty? ? Object : base_path.safe_constantize
+            return if base_path.nil?
+
+            to_extend = base_path.constants
+                                 .find(&method(:find_representer).curry[
+                                   base_path, relation
+                                 ])
+
+            opts.merge!(extend: "#{base_path}::#{to_extend}".safe_constantize)
           end
 
           def validate_relation(relation, kind)
