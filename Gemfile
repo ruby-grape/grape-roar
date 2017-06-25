@@ -12,9 +12,8 @@ group :test do
 end
 
 group :development, :test do
-  gem 'activerecord'
-  gem 'mongoid'
+  gem 'activerecord', '>= 4.0.0'
+  gem 'mongoid', '>= 5.0.0'
   gem 'nokogiri', '1.6.3.1'
-  gem 'pry'
   gem 'rubocop', '0.49.1'
 end
