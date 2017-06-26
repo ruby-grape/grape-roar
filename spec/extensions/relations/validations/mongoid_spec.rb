@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'active_record'
 
@@ -17,14 +19,14 @@ describe Grape::Roar::Extensions::Relations::Validations::Mongoid do
     klass.new(model_klass)
   end
 
-  let(:map_reflection) do 
+  let(:map_reflection) do
     proc do |r|
       case r
       when /and/     then 'ManyToMany'
       when /many/    then 'Many'
       when /one/     then 'One'
       when /belongs/ then 'In'
-      else end
+      end
     end
   end
 
@@ -33,7 +35,7 @@ describe Grape::Roar::Extensions::Relations::Validations::Mongoid do
       if r == :test_rel
         {
           relation: "Mongoid::Relations::#{relation_klass}"\
-                    "::#{map_reflection.(test_method)}".constantize
+                    "::#{map_reflection.call(test_method)}".constantize
         }
       else
         { relation: double }
@@ -44,21 +46,21 @@ describe Grape::Roar::Extensions::Relations::Validations::Mongoid do
   context 'referenced' do
     let(:relation_klass) { 'Referenced' }
 
-    %i(
+    %i[
       belongs_to
       has_and_belongs_to_many
       has_many
       has_one
-    ).each do |test_method|
+    ].each do |test_method|
       context "##{test_method}_valid? validates the relation" do
         let(:test_method) { test_method }
 
-        it 'properly validates the relation' do 
+        it 'properly validates the relation' do
           expect(subject.send("#{test_method}_valid?", :test_rel)).to eql(true)
 
-          expect { 
-            subject.send("#{test_method}_valid?", :fail) 
-          }.to raise_error(
+          expect do
+            subject.send("#{test_method}_valid?", :fail)
+          end.to raise_error(
             Grape::Roar::Extensions::Relations::\
             Exceptions::InvalidRelationError
           )
@@ -70,16 +72,16 @@ describe Grape::Roar::Extensions::Relations::Validations::Mongoid do
   context 'referenced' do
     let(:relation_klass) { 'Embedded' }
 
-    %i(embeds_one embeds_many).each do |test_method|
+    %i[embeds_one embeds_many].each do |test_method|
       context "##{test_method}_valid? validates the relation" do
         let(:test_method) { test_method }
 
-        it 'properly validates the relation' do 
+        it 'properly validates the relation' do
           expect(subject.send("#{test_method}_valid?", :test_rel)).to eql(true)
 
-          expect { 
-            subject.send("#{test_method}_valid?", :fail) 
-          }.to raise_error(
+          expect do
+            subject.send("#{test_method}_valid?", :fail)
+          end.to raise_error(
             Grape::Roar::Extensions::Relations::\
             Exceptions::InvalidRelationError
           )
@@ -87,5 +89,4 @@ describe Grape::Roar::Extensions::Relations::Validations::Mongoid do
       end
     end
   end
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'grape/roar/extensions/relations/adapters/base'
 require 'grape/roar/extensions/relations/adapters/active_record'
 require 'grape/roar/extensions/relations/adapters/mongoid'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Grape::Roar::Extensions::Relations::Mapper do
   let(:entity) { double }
   let(:klass)  { double }
@@ -27,13 +29,12 @@ describe Grape::Roar::Extensions::Relations::Mapper do
   context '#decorate' do
     let(:adapter) { double }
     let(:config) do
-      { test_single: { 
-          relation_kind: :belongs_to, embedded: true, misc_opt: 'foo' 
-        },
+      { test_single: {
+        relation_kind: :belongs_to, embedded: true, misc_opt: 'foo'
+      },
         test_collection: {
           relation_kind: :has_many, embedded: true, misc_opt: 'baz'
-        } 
-      }
+        } }
     end
 
     let(:klass) { double }
@@ -41,8 +42,8 @@ describe Grape::Roar::Extensions::Relations::Mapper do
     before do
       allow(subject).to receive(:adapter).and_return(adapter)
 
-      allow(adapter).to receive(:collection_methods).and_return(%i(has_many))
-      allow(adapter).to receive(:single_entity_methods).and_return(%i(belongs_to))
+      allow(adapter).to receive(:collection_methods).and_return(%i[has_many])
+      allow(adapter).to receive(:single_entity_methods).and_return(%i[belongs_to])
       allow(entity).to receive(:name).and_return('Foo::Bar')
 
       subject.instance_variable_set(:@config, config)

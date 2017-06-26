@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 describe Grape::Roar::Extensions::Relations::DSLMethods do
-  subject do 
+  subject do
     Class.new.tap { |c| c.singleton_class.include(described_class) }
   end
 
-  context '#link_relation' do 
+  context '#link_relation' do
     let(:relation) { double }
     let(:collection) { false }
 
@@ -14,14 +16,14 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
 
     after { subject.link_relation(relation, collection) }
 
-    it 'calls the correct method' do 
+    it 'calls the correct method' do
       expect(subject).to receive(:link).with(relation)
     end
 
-    context 'with a collection of objects' do 
+    context 'with a collection of objects' do
       let(:collection) { true }
 
-      it 'uses the links method' do 
+      it 'uses the links method' do
         expect(subject).to receive(:links).with(relation)
       end
     end
@@ -34,20 +36,20 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
 
     it 'calls the methods correctly' do
       expect(subject).to receive_message_chain(
-        *%i(relational_mapper adapter name_for_represented)
+        :relational_mapper, :adapter, :name_for_represented
       ).with(represented)
     end
   end
 
-  context 'with relational mapper' do 
+  context 'with relational mapper' do
     let(:relational_mapper) { double }
 
-    before do 
+    before do
       allow(subject).to receive(:relational_mapper)
-                    .and_return(relational_mapper)
+        .and_return(relational_mapper)
     end
 
-    context '#relation' do 
+    context '#relation' do
       let(:relation_name) { double }
       let(:relation_kind) { :has_many }
       let(:opts) { {} }
@@ -66,12 +68,11 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
 
       it 'calls the method correctly' do
         expect(relational_mapper).to receive(:[]=).with(
-          :self, { relation_kind: :self }
+          :self, relation_kind: :self
         )
       end
     end
   end
-
 
   context '#map_base_url' do
     let(:grape_request) do
@@ -80,16 +81,16 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
 
     let(:opts) { { env: double } }
 
-    before do 
+    before do
       allow(Grape::Request).to receive(:new).with(opts[:env])
-                                             .and_return(grape_request)
+                                            .and_return(grape_request)
     end
 
-    it 'provides a default implementation' do 
-      expect(subject.map_base_url.(opts)).to eql('foo/v1')
+    it 'provides a default implementation' do
+      expect(subject.map_base_url.call(opts)).to eql('foo/v1')
     end
 
-    context 'with user provided block' do 
+    context 'with user provided block' do
       let(:block) { proc {} }
 
       it 'should return the user block' do
@@ -99,10 +100,10 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
     end
   end
 
-  context '#map_self_url' do 
+  context '#map_self_url' do
     after { subject.map_self_url }
 
-    it 'calls the correct method' do 
+    it 'calls the correct method' do
       expect(subject).to receive(:link).with(:self)
     end
   end
@@ -112,13 +113,13 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
     let(:opts)     { double }
     let(:relation) { 'baz' }
 
-    it 'provides a default implementation' do 
+    it 'provides a default implementation' do
       expect(
-        subject.map_resource_path.(opts, object, relation)
+        subject.map_resource_path.call(opts, object, relation)
       ).to eql('baz/4')
     end
 
-    context 'with user provided block' do 
+    context 'with user provided block' do
       let(:block) { proc {} }
 
       it 'should return the user block' do
@@ -128,7 +129,7 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
     end
   end
 
-  context '#represent' do 
+  context '#represent' do
     let(:object) { double }
     let(:options) { double }
 
@@ -136,7 +137,7 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
 
     before do
       expect(subject).to receive(:relations_mapped)
-                     .and_return(relations_mapped)
+        .and_return(relations_mapped)
     end
 
     after { subject.represent(object, options) }
@@ -147,7 +148,6 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
     end
 
     context 'with relations mapped' do
-      
       let(:relations_mapped) { true }
 
       it 'should not map relations and invoke super' do

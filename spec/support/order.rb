@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'support/order_representer'
 
 class Order

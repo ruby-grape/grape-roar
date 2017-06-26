@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'grape/roar/extensions/relations/validations'
 require 'grape/roar/extensions/relations/adapters'
 require 'grape/roar/extensions/relations/dsl_methods'

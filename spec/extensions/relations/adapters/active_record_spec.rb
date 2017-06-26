@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'active_record'
 
@@ -15,14 +17,14 @@ describe Grape::Roar::Extensions::Relations::Adapters::ActiveRecord do
   context '#collection_methods' do
     it 'should return all collection methods' do
       expect(subject.collection_methods)
-        .to match_array(%i(has_many has_and_belongs_to_many))
+        .to match_array(%i[has_many has_and_belongs_to_many])
     end
   end
 
   context '#single_entity_methods' do
     it 'should return all single entity methods' do
       expect(subject.single_entity_methods)
-        .to match_array(%i(has_one belongs_to))
+        .to match_array(%i[has_one belongs_to])
     end
   end
 end

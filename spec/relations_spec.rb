@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 describe Grape::Roar::Extensions::Relations do
   context '.included' do
     subject { Class.new }
     after { subject.include(described_class) }
-    
+
     it 'mixes DSLMethods into the singleton class of its target' do
       expect(subject.singleton_class).to receive(:include).with(
         Grape::Roar::Extensions::Relations::DSLMethods
@@ -10,7 +12,7 @@ describe Grape::Roar::Extensions::Relations do
     end
   end
 
-  context 'with mongoid' do    
+  context 'with mongoid' do
     include_context 'Grape API App'
 
     # Make sure Mongo is empty
@@ -19,7 +21,7 @@ describe Grape::Roar::Extensions::Relations do
     let(:result) { JSON.parse(last_response.body) }
 
     context 'has_many, embedded: false' do
-      before do 
+      before do
         subject.get('/carts/:id') do
           cart = Cart.create(id: params[:id])
           Array.new(5).map { Item.create(cart: cart) }
@@ -35,18 +37,18 @@ describe Grape::Roar::Extensions::Relations do
         )
       end
 
-      it 'correctly generates links for items' do 
-        expect(result['_links']['items'].map { |l| l['href']}).to all(
+      it 'correctly generates links for items' do
+        expect(result['_links']['items'].map { |l| l['href'] }).to all(
           match(/^http:\/\/example\.org\/items\/[A-Za-z0-9]*$/)
         )
       end
     end
 
     context 'belongs_to, embedded: true' do
-      before do 
+      before do
         subject.get('/items/:id') do
           present(
-            Item.create(id: params[:id], cart: Cart.create), 
+            Item.create(id: params[:id], cart: Cart.create),
             with: MongoidItemRepresenter
           )
         end

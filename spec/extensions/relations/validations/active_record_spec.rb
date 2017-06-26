@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'active_record'
 
@@ -19,15 +21,15 @@ describe Grape::Roar::Extensions::Relations::Validations::ActiveRecord do
 
   before do
     expect(model_klass).to receive(:reflections).twice
-      .and_return(reflections)
+                                                .and_return(reflections)
   end
 
-  %w(
+  %w[
     belongs_to
     has_many
     has_one
     has_and_belongs_to_many
-  ).each do |relation|
+  ].each do |relation|
     context "##{relation}_valid?" do
       let(:relation_klass) do
         "::ActiveRecord::Reflection::#{relation.camelize}"\

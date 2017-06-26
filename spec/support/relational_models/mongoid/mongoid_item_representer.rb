@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MongoidItemRepresenter < Grape::Roar::Decorator
   include Roar::JSON
   include Roar::JSON::HAL

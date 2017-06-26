@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MongoidCartRepresenter
   include Roar::JSON
   include Roar::JSON::HAL

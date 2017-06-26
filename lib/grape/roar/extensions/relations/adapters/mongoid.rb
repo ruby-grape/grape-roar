@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Grape
   module Roar
     module Extensions
@@ -9,9 +11,9 @@ module Grape
             valid_for { |klass| klass < ::Mongoid::Document }
 
             def collection_methods
-              @collection_methods ||= %i(
+              @collection_methods ||= %i[
                 embeds_many has_many has_and_belongs_to_many
-              )
+              ]
             end
 
             def name_for_represented(represented)
@@ -26,7 +28,7 @@ module Grape
             end
 
             def single_entity_methods
-              @single_entity_methods ||= %i(has_one belongs_to embeds_one)
+              @single_entity_methods ||= %i[has_one belongs_to embeds_one]
             end
           end
         end
