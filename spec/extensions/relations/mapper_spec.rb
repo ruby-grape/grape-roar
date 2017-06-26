@@ -1,4 +1,4 @@
-describe Grape::Roar::Extensions::RelationalModels::Mapper do
+describe Grape::Roar::Extensions::Relations::Mapper do
   let(:entity) { double }
   let(:klass)  { double }
 
@@ -19,7 +19,7 @@ describe Grape::Roar::Extensions::RelationalModels::Mapper do
 
     it 'should resolve the correct adapter' do
       expect(subject.adapter).to be_a(
-        Grape::Roar::Extensions::RelationalModels::Adapter::ActiveRecord
+        Grape::Roar::Extensions::Relations::Adapters::ActiveRecord
       )
     end
   end
@@ -76,7 +76,7 @@ describe Grape::Roar::Extensions::RelationalModels::Mapper do
 
       it 'will raise the correct exception' do
         expect { subject.decorate(klass) }.to raise_error(
-          Grape::Roar::Extensions::RelationalModels::Exceptions::UnsupportedRelationError
+          Grape::Roar::Extensions::Relations::Exceptions::UnsupportedRelationError
         )
       end
     end

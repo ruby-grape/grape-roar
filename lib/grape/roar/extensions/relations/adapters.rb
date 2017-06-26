@@ -1,12 +1,12 @@
-require 'grape/roar/extensions/relational_models/adapter/base'
-require 'grape/roar/extensions/relational_models/adapter/active_record'
-require 'grape/roar/extensions/relational_models/adapter/mongoid'
+require 'grape/roar/extensions/relations/adapters/base'
+require 'grape/roar/extensions/relations/adapters/active_record'
+require 'grape/roar/extensions/relations/adapters/mongoid'
 
 module Grape
   module Roar
     module Extensions
-      module RelationalModels
-        module Adapter
+      module Relations
+        module Adapters
           def self.for(klass)
             (constants - [:Base]).inject(nil) do |m, c|
               obj = const_get(c)

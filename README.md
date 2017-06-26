@@ -152,7 +152,7 @@ class FooEntity < Grape::Roar::Decorator
   include Roar::JSON::HAL
   include Roar::Hypermedia
 
-  include Grape::Roar::Extensions::RelationalModels
+  include Grape::Roar::Extensions::Relations
 
   relation :belongs_to, :bar, embedded: true
 
@@ -164,7 +164,7 @@ class BarEntity < Grape::Roar::Decorator
   include Roar::JSON::HAL
   include Roar::Hypermedia
 
-  include Grape::Roar::Extensions::RelationalModels
+  include Grape::Roar::Extensions::Relations
 
   relation :has_many, :bars, embedded: false
 
@@ -183,7 +183,7 @@ class BarEntity < Grape::Roar::Decorator
   include Roar::JSON::HAL
   include Roar::Hypermedia
 
-  include Grape::Roar::Extensions::RelationalModels
+  include Grape::Roar::Extensions::Relations
 
   # These are the same opts that are given to you previous examples
   map_base_url do |opts|
@@ -201,7 +201,7 @@ class BarEntity < Grape::Roar::Decorator
   include Roar::JSON::HAL
   include Roar::Hypermedia
 
-  include Grape::Roar::Extensions::RelationalModels
+  include Grape::Roar::Extensions::Relations
 
   # This is our default implementation
   map_resource_path do |_opts, object, relation_name|

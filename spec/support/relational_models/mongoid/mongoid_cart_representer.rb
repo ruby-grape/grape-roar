@@ -3,7 +3,7 @@ module MongoidCartRepresenter
   include Roar::JSON::HAL
   include Roar::Hypermedia
 
-  include Grape::Roar::Extensions::RelationalModels
+  include Grape::Roar::Extensions::Relations
 
   relation :has_many, :items
 
@@ -17,7 +17,7 @@ end
 #   include Roar::JSON::HAL
 #   include Roar::Hypermedia
 
-#   include Grape::Roar::Extensions::RelationalModels
+#   include Grape::Roar::Extensions::Relations
 
 #   relation :has_many, :items
 

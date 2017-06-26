@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'active_record'
 
-describe Grape::Roar::Extensions::RelationalModels::Adapter do
+describe Grape::Roar::Extensions::Relations::Adapters do
   context '.for' do
     let(:model) { Class.new(ActiveRecord::Base) }
 

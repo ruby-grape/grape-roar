@@ -3,7 +3,7 @@ class MongoidItemRepresenter < Grape::Roar::Decorator
   include Roar::JSON::HAL
   include Roar::Hypermedia
 
-  include Grape::Roar::Extensions::RelationalModels
+  include Grape::Roar::Extensions::Relations
 
   relation :belongs_to, :cart, embedded: true
 

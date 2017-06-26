@@ -1,7 +1,7 @@
 module Grape
   module Roar
     module Extensions
-      module RelationalModels
+      module Relations
         module Validations
           module Misc
             def invalid_relation(valid, invalid)

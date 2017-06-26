@@ -1,7 +1,7 @@
 module Grape
   module Roar
     module Extensions
-      module RelationalModels
+      module Relations
         module Exceptions
           class InvalidRelationError < StandardError; end
           class UnsupportedRelationError < StandardError; end

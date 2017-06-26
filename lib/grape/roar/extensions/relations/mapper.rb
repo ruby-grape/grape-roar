@@ -1,7 +1,7 @@
 module Grape
   module Roar
     module Extensions
-      module RelationalModels
+      module Relations
         class Mapper
           extend Forwardable
 
@@ -11,7 +11,7 @@ module Grape
           end
 
           def adapter
-            @adapter ||= Adapter.for(model_klass)
+            @adapter ||= Adapters.for(model_klass)
           end
 
           def decorate(klass)

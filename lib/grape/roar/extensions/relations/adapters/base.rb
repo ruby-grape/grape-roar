@@ -1,8 +1,8 @@
 module Grape
   module Roar
     module Extensions
-      module RelationalModels
-        module Adapter
+      module Relations
+        module Adapters
           class Base
             class << self
               def valid_for?(klass)

@@ -1,4 +1,4 @@
-describe Grape::Roar::Extensions::RelationalModels::DSLMethods do
+describe Grape::Roar::Extensions::Relations::DSLMethods do
   subject do 
     Class.new.tap { |c| c.singleton_class.include(described_class) }
   end

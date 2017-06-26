@@ -1,1 +1,1 @@
-require 'grape/roar/extensions/relational_models'
+require 'grape/roar/extensions/relations'

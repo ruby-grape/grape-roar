@@ -2,7 +2,7 @@ Next
 ----
 
 * Your contribution here.
-* Adds Grape::Roar::Extensions::RelationalModels
+* Adds Grape::Roar::Extensions::Relations
 
 
 0.4.0 (02/18/2017)

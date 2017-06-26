@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'active_record'
 
-describe Grape::Roar::Extensions::RelationalModels::Validations::Mongoid do
+describe Grape::Roar::Extensions::Relations::Validations::Mongoid do
   let(:model_klass) { double }
 
   subject do
@@ -59,7 +59,7 @@ describe Grape::Roar::Extensions::RelationalModels::Validations::Mongoid do
           expect { 
             subject.send("#{test_method}_valid?", :fail) 
           }.to raise_error(
-            Grape::Roar::Extensions::RelationalModels::\
+            Grape::Roar::Extensions::Relations::\
             Exceptions::InvalidRelationError
           )
         end
@@ -80,7 +80,7 @@ describe Grape::Roar::Extensions::RelationalModels::Validations::Mongoid do
           expect { 
             subject.send("#{test_method}_valid?", :fail) 
           }.to raise_error(
-            Grape::Roar::Extensions::RelationalModels::\
+            Grape::Roar::Extensions::Relations::\
             Exceptions::InvalidRelationError
           )
         end

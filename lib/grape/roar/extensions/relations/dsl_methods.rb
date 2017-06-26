@@ -1,7 +1,7 @@
 module Grape
   module Roar
     module Extensions
-      module RelationalModels
+      module Relations
         module DSLMethods
           def link_relation(relation, is_collection = false, dsl = self)
             send(is_collection ? :links : :link, relation) do |opts|
