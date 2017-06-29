@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+
 
 describe Grape::Roar do
   include_context 'Grape API App'

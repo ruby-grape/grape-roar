@@ -15,14 +15,17 @@ describe Grape::Roar::Extensions::Relations::Mapper do
   end
 
   context '#adapter' do
+    let(:klass) { class_double('ActiveRecord::Base') }
+
     before do
-      subject.instance_variable_set(:@model_klass, Class.new(ActiveRecord::Base))
+      subject.instance_variable_set(:@model_klass, klass)
     end
 
-    it 'should resolve the correct adapter' do
-      expect(subject.adapter).to be_a(
-        Grape::Roar::Extensions::Relations::Adapters::ActiveRecord
-      )
+    after { subject.adapter }
+
+    it 'should call the correct method' do
+      expect(Grape::Roar::Extensions::Relations::Adapters)
+        .to receive(:for).with(klass)
     end
   end
 

@@ -1,9 +1,5 @@
 # frozen_string_literal: true
-
-require 'spec_helper'
-require 'mongoid'
-
-describe Grape::Roar::Extensions::Relations::Adapters::Mongoid do
+describe Grape::Roar::Extensions::Relations::Adapters::Mongoid, mongoid: true do
   let(:model) { Class.new.tap { |c| c.include(::Mongoid::Document) } }
   subject { described_class.new(model) }
 

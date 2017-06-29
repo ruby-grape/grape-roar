@@ -121,21 +121,9 @@ get 'products' do
 end
 ```
 
-### Relational Extensions
+### Relation Extensions
 
-If you use either `ActiveRecord` or `Mongoid`, it is possible to represent that relationship using the `#relation` DSL method.
-
-#### Example Models
-
-```ruby
-  class Bar < ActiveRecord::Base
-    belongs_to :foo
-  end
-
-  class Foo < ActiveRecord::Base
-    has_many :bars  
-  end
-```
+If you use either `ActiveRecord` or `Mongoid`, you can use the `Grape::Roar::Extensions::Relations` DSL to expose the relationships in between your models as a HAL response. The DSL methods used are the same regardless of what your ORM/ODM is, as long as there exists an adapter for it. 
 
 #### Designing Representers
 
@@ -145,28 +133,41 @@ If `embedded` is `false`, a `_links` entry will be added. `#link_self` decorates
 
 Otherwise, the extensions attempt to look up the correct representer module/class for the objects (e.g. we infer the `extend` argument). You can always specify the correct representer to use on your own. 
 
+##### Example Models
 
 ```ruby
-class FooEntity < Grape::Roar::Decorator
+  class Item < ActiveRecord::Base
+    belongs_to :cart
+  end
+
+  class Cart < ActiveRecord::Base
+    has_many :items  
+  end
+```
+
+##### Example Representers
+
+```ruby
+class ItemEntity < Grape::Roar::Decorator
   include Roar::JSON
   include Roar::JSON::HAL
   include Roar::Hypermedia
 
   include Grape::Roar::Extensions::Relations
 
-  relation :belongs_to, :bar, embedded: true
+  relation :belongs_to, :cart, embedded: true
 
   link_self
 end
 
-class BarEntity < Grape::Roar::Decorator
+class CartEntity < Grape::Roar::Decorator
   include Roar::JSON
   include Roar::JSON::HAL
   include Roar::Hypermedia
 
   include Grape::Roar::Extensions::Relations
 
-  relation :has_many, :bars, embedded: false
+  relation :has_many, :items, embedded: false
 
   link_self
 end
@@ -174,7 +175,63 @@ end
 
 Although this example uses `Grape::Roar::Decorator`, you can also use a module as show in prior examples above. If doing so, you no longer have to mix in `Grape::Roar::Representer`. 
 
-#### Advanced Usage
+##### Example Item
+```javascript
+{
+    "_embedded": {
+        "cart": {
+            "_links": {
+                "self": {
+                    "href": "http://example.org/carts/1"
+                },
+                "items": [{
+                    "href": "http://example.org/items/1"
+                }]
+            }
+        }
+    },
+    "_links": {
+        "self": {
+            "href": "http://example.org/items/1"
+        }
+    }
+}
+```
+
+##### Example Cart
+```javascript
+{
+    "_links": {
+        "self": {
+            "href": "http://example.org/carts/1"
+        },
+        "items": [{
+            "href": "http://example.org/items/1"
+        }, {
+            "href": "http://example.org/items/2"
+        }, {
+            "href": "http://example.org/items/3"
+        }, {
+            "href": "http://example.org/items/4"
+        }, {
+            "href": "http://example.org/items/5"
+        }]
+    }
+}
+```
+
+#### Errors
+
+Should you incorrectly describe a relationship (e.g. you specify has_one but your model specifies has_many), an exception will be raised to notify you of the mismatch:
+
+```ruby
+Grape::Roar::Extensions::Relations::Exceptions::InvalidRelationError:
+  Expected Mongoid::Relations::Referenced::One, got Mongoid::Relations::Referenced::Many!
+```
+
+#### Change how URLs are presented
+
+The `opts` hash below is the same one as shown in prior examples.
 
 ##### Override base URI mappings
 ```ruby
@@ -185,9 +242,10 @@ class BarEntity < Grape::Roar::Decorator
 
   include Grape::Roar::Extensions::Relations
 
-  # These are the same opts that are given to you previous examples
+  # This is our default implementation
   map_base_url do |opts|
-    "some_uri_here"
+    request = Grape::Request.new(opts[:env])
+    "#{request.base_url}#{request.script_name}"
   end
 
   relation :has_many, :bars, embedded: false

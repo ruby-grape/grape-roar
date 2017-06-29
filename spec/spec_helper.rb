@@ -15,16 +15,22 @@ require 'roar/hypermedia'
 require 'grape/roar'
 require 'rack/test'
 
-# For Relational Extension Tests
-require 'mongoid'
-
-ENV['MONGOID_ENV'] ||= 'test'
-Mongoid.load!('./spec/config/mongoid.yml')
-
 require 'rspec'
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
+  config.filter_run_excluding(
+    active_record: true, mongoid: true
+  )
 end
 
-Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
+Dir["#{File.dirname(__FILE__)}/support/all/**/*.rb"].each { |f| require f }
+
+# For Relational Extension Tests
+if defined?(Mongoid)
+  ENV['MONGOID_ENV'] ||= 'test'
+  Mongoid.load!('./spec/config/mongoid.yml')
+  Dir["#{File.dirname(__FILE__)}/support/mongoid/**/*.rb"].each { |f| require f }
+else
+end
+

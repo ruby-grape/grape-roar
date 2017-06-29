@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'support/article_representer'
+require 'support/all/article_representer'
 
 class Article
   include Roar::JSON

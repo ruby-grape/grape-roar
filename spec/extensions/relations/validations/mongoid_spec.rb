@@ -1,9 +1,5 @@
 # frozen_string_literal: true
-
-require 'spec_helper'
-require 'active_record'
-
-describe Grape::Roar::Extensions::Relations::Validations::Mongoid do
+describe Grape::Roar::Extensions::Relations::Validations::Mongoid, mongoid: true do
   let(:model_klass) { double }
 
   subject do

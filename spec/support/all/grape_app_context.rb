@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+
 
 shared_context 'Grape API App' do
   subject do

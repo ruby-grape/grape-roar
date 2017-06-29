@@ -12,7 +12,7 @@ describe Grape::Roar::Extensions::Relations do
     end
   end
 
-  context 'with mongoid' do
+  context 'with mongoid', mongoid: true do
     include_context 'Grape API App'
 
     # Make sure Mongo is empty

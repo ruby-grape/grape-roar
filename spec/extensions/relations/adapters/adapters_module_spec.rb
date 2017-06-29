@@ -1,9 +1,5 @@
 # frozen_string_literal: true
-
-require 'spec_helper'
-require 'active_record'
-
-describe Grape::Roar::Extensions::Relations::Adapters do
+describe Grape::Roar::Extensions::Relations::Adapters, active_record: true do
   context '.for' do
     let(:model) { Class.new(ActiveRecord::Base) }
 

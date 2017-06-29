@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'support/order_representer'
+require 'support/all/order_representer'
 
 class Order
   include Roar::JSON
