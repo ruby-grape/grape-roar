@@ -5,6 +5,7 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'bundler'
 Bundler.setup :default, :test
+Bundler.require
 
 require 'grape'
 
@@ -31,6 +32,4 @@ if defined?(Mongoid)
   ENV['MONGOID_ENV'] ||= 'test'
   Mongoid.load!('./spec/config/mongoid.yml')
   Dir["#{File.dirname(__FILE__)}/support/mongoid/**/*.rb"].each { |f| require f }
-else
 end
-
