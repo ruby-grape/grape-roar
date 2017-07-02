@@ -21,7 +21,6 @@ module Grape
               )
             end
 
-            # rubocop:disable Style/PredicateName
             def has_many_valid?(relation)
               relation = klass.reflections[relation]
 
@@ -34,9 +33,7 @@ module Grape
                 relation.class
               )
             end
-            # rubocop:enable Style/PredicateName
 
-            # rubocop:disable Style/PredicateName
             def has_and_belongs_to_many_valid?(relation)
               relation = klass.reflections[relation]
 
@@ -49,9 +46,7 @@ module Grape
                 relation.class
               )
             end
-            # rubocop:enable Style/PredicateName
 
-            # rubocop:disable Style/PredicateName
             def has_one_valid?(relation)
               relation = klass.reflections[relation]
 
@@ -64,7 +59,6 @@ module Grape
                 relation.class
               )
             end
-            # rubocop:enable Style/PredicateName
           end
         end
       end

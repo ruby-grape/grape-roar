@@ -2,7 +2,7 @@ Next
 ----
 
 * Your contribution here.
-* Adds Grape::Roar::Extensions::Relations
+* [#22](https://github.com/ruby-grape/grape-roar/pull/22): Adds Grape::Roar::Extensions::Relations.
 
 
 0.4.0 (02/18/2017)
