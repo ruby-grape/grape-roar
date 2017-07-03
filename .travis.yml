@@ -5,6 +5,32 @@ language: ruby
 cache: bundler
 
 rvm:
-  - ruby-head
-  - 2.2.2
-  - 2.3.1
+  - 2.4.1
+  - 2.3.4
+
+gemfile:
+  - Gemfile
+  - gemfiles/with_activerecord.gemfile
+  - gemfiles/with_mongoid.gemfile
+
+services:
+  - mongodb
+  - pg
+
+matrix:
+  include:
+    - env: SPEC_OPTS="--tag active_record"
+      gemfile: gemfiles/with_activerecord.gemfile
+      rvm: 2.4.1
+    - env: SPEC_OPTS="--tag mongoid"
+      gemfile: gemfiles/with_mongoid.gemfile
+      rvm: 2.4.1
+    - env: SPEC_OPTS="--tag active_record"
+      gemfile: gemfiles/with_activerecord.gemfile
+      rvm: 2.3.4
+    - env: SPEC_OPTS="--tag mongoid"
+      gemfile: gemfiles/with_mongoid.gemfile
+      rvm: 2.3.4
+
+
+script: bundle exec rake

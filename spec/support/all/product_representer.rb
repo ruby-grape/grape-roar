@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'roar/json/hal'
 
 module ProductRepresenter
@@ -10,6 +12,6 @@ module ProductRepresenter
 
   link :self do |opts|
     request = Grape::Request.new(opts[:env])
-    "#{request.url}"
+    request.url.to_s
   end
 end

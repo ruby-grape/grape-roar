@@ -1,6 +1,10 @@
 AllCops:
+  TargetRubyVersion: 2.3
+  DisplayCopNames: true
   Exclude:
-    - vendor/**/*
     - bin/**/*
+    - gemfiles/**/*
+    - spec/**/*
+    - vendor/**/*
 
 inherit_from: .rubocop_todo.yml

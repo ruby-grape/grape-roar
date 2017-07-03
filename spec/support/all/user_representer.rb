@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserRepresenter < Grape::Roar::Decorator
   include Roar::JSON
   include Roar::Hypermedia

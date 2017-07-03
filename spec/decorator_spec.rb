@@ -1,4 +1,6 @@
-require 'spec_helper'
+# frozen_string_literal: true
+
+
 
 describe Grape::Roar::Decorator do
   subject do

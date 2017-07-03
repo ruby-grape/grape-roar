@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ArticleRepresenter
   include Roar::JSON
   include Roar::Hypermedia

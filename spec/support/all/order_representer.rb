@@ -1,4 +1,6 @@
-require 'support/article'
+# frozen_string_literal: true
+
+require 'support/all/article'
 
 module OrderRepresenter
   include Roar::JSON
