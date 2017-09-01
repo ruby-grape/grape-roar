@@ -20,7 +20,7 @@ module Grape
             @model_klass = klass
 
             config.each_pair do |relation, opts|
-              representer_for(relation.to_s, opts) unless opts.key(:extend)
+              representer_for(relation.to_s, opts) unless opts.key?(:extend)
               map_relation(relation, opts)
             end
           end
