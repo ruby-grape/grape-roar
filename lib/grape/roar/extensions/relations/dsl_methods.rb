@@ -62,6 +62,12 @@ module Grape
             relational_mapper[rname] = opts.merge(relation_kind: relation_kind)
           end
 
+          def prepare(represented)
+            represented.extend(self) unless is_a?(Class)
+            map_relations(represented) unless relations_mapped
+            super
+          end
+
           def represent(object, _options)
             object.extend(self) unless is_a?(Class)
             map_relations(object) unless relations_mapped
