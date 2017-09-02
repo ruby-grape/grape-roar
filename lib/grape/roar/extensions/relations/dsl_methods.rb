@@ -46,7 +46,8 @@ module Grape
           def map_resource_path(&block)
             @map_resource_path ||= if block.nil?
                                      proc do |_opts, object, relation_name|
-                                       "#{relation_name}/#{object.id}"
+                                       [ relation_name.to_s.pluralize, 
+                                         object.id ].join('/')
                                      end
                                    else
                                      block

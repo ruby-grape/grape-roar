@@ -21,7 +21,7 @@ module Grape
                            else
                              represented.class.name
                            end
-              klass_name.demodulize.pluralize.downcase
+              klass_name.demodulize.underscore.pluralize
             end
 
             def single_entity_methods
