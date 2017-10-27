@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'appraisal', '2.2.0'
+  gem 'appraisal', '~> 2.2.0'
 end
 
 group :test do
@@ -14,7 +14,7 @@ group :test do
 end
 
 group :development, :test do
-  gem 'nokogiri', '1.6.3.1'
-  gem 'rake', '~> 10.5.0'
+  gem 'nokogiri'
+  gem 'rake'
   gem 'rubocop', '0.49.1'
 end
