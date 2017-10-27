@@ -7,11 +7,13 @@ module Grape
         module Adapters
           class Base
             class << self
+              # rubocop:disable Lint/RescueWithoutErrorClass
               def valid_for?(klass)
                 valid_proc.call(klass)
               rescue
                 false
               end
+              # rubocop:enable Lint/RescueWithoutErrorClass
 
               def valid_for(&block)
                 @valid_proc = block
