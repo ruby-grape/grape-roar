@@ -16,5 +16,5 @@ end
 group :development, :test do
   gem 'nokogiri', '1.6.3.1'
   gem 'rake', '~> 10.5.0'
-  gem 'rubocop', '0.49.1'
+  gem 'rubocop'
 end
