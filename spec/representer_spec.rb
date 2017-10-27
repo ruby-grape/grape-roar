@@ -25,9 +25,8 @@ describe Grape::Roar do
           end
         end
 
-        it 'returns null' do
-          get '/article/666'
-          expect(last_response.body).to eq('null')
+        it 'raises TypeError' do
+          expect { get '/article/666' }.to raise_error(TypeError)
         end
       end
 
@@ -38,9 +37,8 @@ describe Grape::Roar do
           end
         end
 
-        it 'returns null' do
-          get '/article/666'
-          expect(last_response.body).to eq('null')
+        it 'raises TypeError' do
+          expect { get '/article/666' }.to raise_error(TypeError)
         end
       end 
     end
