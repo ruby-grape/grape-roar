@@ -1,8 +1,8 @@
 Next
 ----
 
+* [#24](https://github.com/ruby-grape/grape-roar/pull/24): Drop the `multi_json` dependency.
 * Your contribution here.
-
 
 0.4.1 (07/14/2017)
 ----
