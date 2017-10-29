@@ -1,9 +1,9 @@
 Next
 ----
 
+* [#24](https://github.com/ruby-grape/grape-roar/pull/24): Drop the `multi_json` dependency.
 * Your contribution here.
 * [#23](https://github.com/ruby-grape/grape-roar/pull/23): Resolves pollution issue with invoking representers on singletons ([#16](https://github.com/ruby-grape/grape-roar/issues/16)) - [@mach-kernel](https://github.com/mach-kernel).
-
 
 0.4.1 (07/14/2017)
 ----
