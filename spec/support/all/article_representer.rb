@@ -3,6 +3,7 @@
 module ArticleRepresenter
   include Roar::JSON
   include Roar::Hypermedia
+  include Grape::Roar::Representer
 
   property :title
   property :id
