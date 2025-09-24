@@ -13,7 +13,7 @@ jobs:
       MONGOID_VERSION: ${{ matrix.entry.mongoid }}
       GRAPE_VERSION: ${{ matrix.entry.grape }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v5
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.entry.ruby }}
