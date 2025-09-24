@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 describe Grape::Roar::Extensions::Relations do
-  context '.included' do
+  describe '.included' do
     subject { Class.new }
+
     after { subject.include(described_class) }
 
     it 'mixes DSLMethods into the singleton class of its target' do
@@ -12,11 +13,11 @@ describe Grape::Roar::Extensions::Relations do
     end
   end
 
-  context 'with mongoid', mongoid: true do
+  context 'with mongoid', :mongoid do
     include_context 'Grape API App'
 
     # Make sure Mongo is empty
-    before(:each) { Mongoid::Config.purge! }
+    before { Mongoid::Config.purge! }
 
     let(:result) { JSON.parse(last_response.body) }
 
@@ -39,7 +40,7 @@ describe Grape::Roar::Extensions::Relations do
 
       it 'correctly generates links for items' do
         expect(result['_links']['items'].map { |l| l['href'] }).to all(
-          match(/^http:\/\/example\.org\/items\/[A-Za-z0-9]*$/)
+          match(%r{^http://example\.org/items/[A-Za-z0-9]*$})
         )
       end
     end
@@ -64,7 +65,7 @@ describe Grape::Roar::Extensions::Relations do
 
       it 'correctly represents the embedded cart' do
         expect(result['_embedded']['cart']['_links']['self']['href'])
-          .to match(/^http:\/\/example\.org\/carts\/[A-Za-z0-9]*$/)
+          .to match(%r{^http://example\.org/carts/[A-Za-z0-9]*$})
 
         expect(result['_embedded']['cart']['_links']['items'].count).to eql(1)
         expect(result['_embedded']['cart']['_links']['items'].first).to eql(

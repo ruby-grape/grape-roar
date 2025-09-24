@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 describe Grape::Roar::Extensions::Relations::Mapper do
+  subject { described_class.new(entity) }
+
   let(:entity) { double }
   let(:klass)  { double }
 
-  subject { described_class.new(entity) }
-
-  context '#initialize' do
+  describe '#initialize' do
     it 'assigns the correct variables' do
       expect(subject.instance_variable_get(:@entity)).to eql(entity)
       expect(subject.instance_variable_get(:@config)).to eql({})
@@ -14,7 +14,7 @@ describe Grape::Roar::Extensions::Relations::Mapper do
     end
   end
 
-  context '#adapter' do
+  describe '#adapter' do
     let(:klass) { class_double('ActiveRecord::Base') }
 
     before do
@@ -23,18 +23,18 @@ describe Grape::Roar::Extensions::Relations::Mapper do
 
     after { subject.adapter }
 
-    it 'should call the correct method' do
+    it 'calls the correct method' do
       expect(Grape::Roar::Extensions::Relations::Adapters)
         .to receive(:for).with(klass)
     end
   end
 
-  context '#decorate' do
+  describe '#decorate' do
     let(:adapter) { double }
     let(:config) do
       { test_single: {
-        relation_kind: :belongs_to, embedded: true, misc_opt: 'foo'
-      },
+          relation_kind: :belongs_to, embedded: true, misc_opt: 'foo'
+        },
         test_collection: {
           relation_kind: :has_many, embedded: true, misc_opt: 'baz'
         } }
@@ -52,7 +52,7 @@ describe Grape::Roar::Extensions::Relations::Mapper do
       subject.instance_variable_set(:@config, config)
     end
 
-    it 'should correctly decorate the entity' do
+    it 'correctlies decorate the entity' do
       expect(adapter).to receive(:belongs_to_valid?).with(
         'test_single'
       ).and_return(true)
@@ -78,7 +78,7 @@ describe Grape::Roar::Extensions::Relations::Mapper do
         { test_single: { relation_kind: :has_baz, misc_opt: 'foo' } }
       end
 
-      it 'will raise the correct exception' do
+      it 'raises the correct exception' do
         expect { subject.decorate(klass) }.to raise_error(
           Grape::Roar::Extensions::Relations::Exceptions::UnsupportedRelationError
         )

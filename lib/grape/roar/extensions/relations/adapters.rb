@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'grape/roar/extensions/relations/adapters/base'
-require 'grape/roar/extensions/relations/adapters/active_record'
-require 'grape/roar/extensions/relations/adapters/mongoid'
+require 'grape/roar/extensions/relations/adapters/active_record' if defined?(ActiveRecord)
+require 'grape/roar/extensions/relations/adapters/mongoid' if defined?(Mongoid)
 
 module Grape
   module Roar

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-
-
 describe Grape::Roar::Decorator do
   subject do
     Class.new(Grape::API)

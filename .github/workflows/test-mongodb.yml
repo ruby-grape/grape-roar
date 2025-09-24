@@ -9,6 +9,7 @@ jobs:
         entry:
           - { ruby: '3.4', mongoid: '~> 6.4.8', mongodb: '6.0', grape: '~> 1.7.0' }
           - { ruby: '3.4', mongoid: '~> 6.4.8', mongodb: '6.0', grape: '~> 2.0.0' }
+          - { ruby: '3.4', mongoid: '~> 7.5.4', mongodb: '7.0', grape: '~> 2.4.0' }
     name: test (ruby=${{ matrix.entry.ruby }}, mongoid=${{ matrix.entry.mongoid }}, mongodb=${{ matrix.entry.mongodb }}, grape=${{ matrix.entry.grape }})
     env:
       MONGOID_VERSION: ${{ matrix.entry.mongoid }}

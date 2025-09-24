@@ -17,9 +17,9 @@ describe Grape::Roar do
       end
     end
 
-    context 'without an instance singleton' do 
-      context 'as nil' do 
-        before do 
+    context 'without an instance singleton' do
+      context 'as nil' do
+        before do
           subject.get('/article/:id') do
             present(nil, with: ArticleRepresenter)
           end
@@ -30,8 +30,8 @@ describe Grape::Roar do
         end
       end
 
-      context 'as another immediate value' do 
-        before do 
+      context 'as another immediate value' do
+        before do
           subject.get('/article/:id') do
             present(5, with: ArticleRepresenter)
           end
@@ -40,7 +40,7 @@ describe Grape::Roar do
         it 'raises TypeError' do
           expect { get '/article/666' }.to raise_error(TypeError)
         end
-      end 
+      end
     end
   end
 end

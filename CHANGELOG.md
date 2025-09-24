@@ -1,5 +1,6 @@
 ### 0.5.0 (Next)
 
+* [#31](https://github.com/ruby-grape/grape-roar/pull/31): Add support for Mongoid 7 - [@dblock](https://github.com/dblock).
 * [#23](https://github.com/ruby-grape/grape-roar/pull/23): Resolves pollution issue with invoking representers on singletons - [@mach-kernel](https://github.com/mach-kernel).
 * [#28](https://github.com/ruby-grape/grape-roar/pull/28): Replaced Travis-CI with GHA - [@dblock](https://github.com/dblock).
 * Your contribution here.

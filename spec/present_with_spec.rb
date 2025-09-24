@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-
-
 describe Grape::Roar do
   include_context 'Grape API App'
 

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
-describe Grape::Roar::Extensions::Relations::Adapters, activerecord: true do
-  context '.for' do
+
+describe Grape::Roar::Extensions::Relations::Adapters, :activerecord do
+  describe '.for' do
     let(:model) { Class.new(ActiveRecord::Base) }
 
     it 'looks up the correct adapter for a given class' do
