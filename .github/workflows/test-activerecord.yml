@@ -1,0 +1,32 @@
+---
+name: test-activerecord
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        entry:
+          - { ruby: '3.4', postgresql: '17', activerecord: '~> 8.0.2', grape: '2.4.0' }
+    name: test (ruby=${{ matrix.entry.ruby }}, postgresql=${{ matrix.entry.postgresql }}, activerecord=${{ matrix.entry.activerecord }}, grape=${{ matrix.entry.grape }})
+    env:
+      ACTIVERECORD_VERSION: ${{ matrix.entry.activerecord }}
+      GRAPE_VERSION: ${{ matrix.entry.grape }}
+    steps:
+      - uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: ${{ matrix.entry.postgresql }}
+          postgresql db: slack_ruby_bot_server_test
+          postgresql user: test
+          postgresql password: password
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.entry.ruby }}
+          bundler-cache: true
+      - name: Run ActiveRecord Tests
+        env:
+          SPEC_OPTS: --tag activerecord
+        run: bundle exec rake
+      - name: Run Tests
+        run: bundle exec rake

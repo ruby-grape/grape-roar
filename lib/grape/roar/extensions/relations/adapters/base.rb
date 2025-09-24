@@ -9,7 +9,7 @@ module Grape
             class << self
               def valid_for?(klass)
                 valid_proc.call(klass)
-              rescue
+              rescue StandardError
                 false
               end
 

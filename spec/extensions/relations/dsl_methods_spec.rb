@@ -68,7 +68,7 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
 
       it 'calls the method correctly' do
         expect(relational_mapper).to receive(:[]=).with(
-          :self, relation_kind: :self
+          :self, { relation_kind: :self }
         )
       end
     end
