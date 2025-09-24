@@ -41,7 +41,6 @@ module Grape
               )
             end
 
-            # rubocop:disable Style/PredicateName
             def has_many_valid?(relation)
               relation = klass.reflect_on_association(relation)
 
@@ -52,9 +51,7 @@ module Grape
                 ::Mongoid::Relations::Referenced::Many, relation[:relation]
               )
             end
-            # rubocop:enable Style/PredicateName
 
-            # rubocop:disable Style/PredicateName
             def has_and_belongs_to_many_valid?(relation)
               relation = klass.reflect_on_association(relation)
 
@@ -66,9 +63,7 @@ module Grape
                 relation[:relation]
               )
             end
-            # rubocop:enable Style/PredicateName
 
-            # rubocop:disable Style/PredicateName
             def has_one_valid?(relation)
               relation = klass.reflect_on_association(relation)
 
@@ -79,7 +74,6 @@ module Grape
                 ::Mongoid::Relations::Referenced::One, relation[:relation]
               )
             end
-            # rubocop:enable Style/PredicateName
           end
         end
       end

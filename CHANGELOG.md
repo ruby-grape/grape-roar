@@ -1,35 +1,30 @@
-Next
-----
+### 0.5.0 (Next)
 
+* [#23](https://github.com/ruby-grape/grape-roar/pull/23): Resolves pollution issue with invoking representers on singletons - [@mach-kernel](https://github.com/mach-kernel).
+* [#28](https://github.com/ruby-grape/grape-roar/pull/28): Replaced Travis-CI with GHA - [@dblock](https://github.com/dblock).
 * Your contribution here.
-* [#23](https://github.com/ruby-grape/grape-roar/pull/23): Resolves pollution issue with invoking representers on singletons ([#16](https://github.com/ruby-grape/grape-roar/issues/16)) - [@mach-kernel](https://github.com/mach-kernel).
 
 
-0.4.1 (07/14/2017)
-----
+### 0.4.1 (2017/07/14)
 
-* [#22](https://github.com/ruby-grape/grape-roar/pull/22): Adds Grape::Roar::Extensions::Relations.
+* [#22](https://github.com/ruby-grape/grape-roar/pull/22): Adds Grape::Roar::Extensions::Relations - [@mach-kernel](https://github.com/mach-kernel).
 
 
-0.4.0 (02/18/2017)
-------------------
+### 0.4.0 (2017/02/18)
 
 * [#21](https://github.com/ruby-grape/grape-roar/pull/21): Fixes serialization issue due to [representable](https://github.com/trailblazer/representable) API change, drop support for Ruby < `2.1.0` - [@mach-kernel](https://github.com/mach-kernel).
 
 
-0.3.0 (12/31/2014)
-------------------
+### 0.3.0 (2014/12/31)
 
 * Added support for Roar 1.0 - [@dblock](https://github.com/dblock).
 
 
-0.2.0 (12/18/2014)
-------------------
+### 0.2.0 (2014/12/18)
 
 * [#10](https://github.com/ruby-grape/grape-roar/pull/10): Support for Roar decorator - [@sdbondi](https://github.com/sdbondi).
 
 
-0.1.0 (7/17/2014)
------------------
+### 0.1.0 (2014/7/17)
 
 * Initial public release, with support for Grape `present` - [@dblock](https://github.com/dblock).

@@ -1,7 +1,6 @@
-# -*- encoding: utf-8 -*-
 # frozen_string_literal: true
 
-require File.expand_path('../lib/grape/roar/version', __FILE__)
+require File.expand_path('lib/grape/roar/version', __dir__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ['Daniel Doubrovkine']
@@ -13,7 +12,6 @@ Gem::Specification.new do |gem|
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   gem.files         = `git ls-files`.split("\n")
-  gem.test_files    = `git ls-files -- {spec}/*`.split("\n")
   gem.name          = 'grape-roar'
   gem.require_paths = ['lib']
   gem.version       = Grape::Roar::VERSION
@@ -22,4 +20,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'multi_json'
   gem.add_dependency 'roar', '~> 1.1.0'
   gem.required_ruby_version = '>= 2.1.0'
+  gem.metadata['rubygems_mfa_required'] = 'true'
 end

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-describe Grape::Roar::Extensions::Relations::Adapters::ActiveRecord, active_record: true do
+describe Grape::Roar::Extensions::Relations::Adapters::ActiveRecord, activerecord: true do
   let(:model) { Class.new(ActiveRecord::Base) }
   subject { described_class.new(model) }
 

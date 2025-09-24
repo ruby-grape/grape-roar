@@ -34,6 +34,7 @@ module Grape
           def find_representer(base, target_name, const)
             const = base.const_get(const)
             return false if const.nil? || !const.is_a?(Module)
+
             (const < ::Roar::JSON::HAL) && const.name
                                                 .downcase
                                                 .include?(target_name.singularize)
@@ -41,6 +42,7 @@ module Grape
 
           def map_collection(relation, opts)
             return entity.link_relation(relation, true) unless opts.fetch(:embedded, false)
+
             entity.collection(relation, opts)
           end
 
@@ -50,8 +52,9 @@ module Grape
                   elsif adapter.single_entity_methods
                                .include?(opts[:relation_kind]) || opts[:relation_kind] == :self
                     :map_single_entity
-                  else raise Exceptions::UnsupportedRelationError,
-                             'No such relation supported'
+                  else
+                    raise Exceptions::UnsupportedRelationError,
+                          'No such relation supported'
                   end
 
             send(map, relation, opts)
@@ -61,6 +64,7 @@ module Grape
           def map_single_entity(relation, opts)
             return entity.map_self_url if opts[:relation_kind] == :self
             return entity.link_relation(relation) unless opts.fetch(:embedded, false)
+
             entity.property(relation, opts)
           end
 
@@ -80,6 +84,7 @@ module Grape
           def validate_relation(relation, kind)
             validator_method = "#{kind}_valid?"
             return true unless adapter.respond_to?(validator_method)
+
             adapter.send(validator_method, relation.to_s)
           end
         end

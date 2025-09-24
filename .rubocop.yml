@@ -1,6 +1,6 @@
 AllCops:
-  TargetRubyVersion: 2.3
-  DisplayCopNames: true
+  TargetRubyVersion: 3.0
+  NewCops: enable
   Exclude:
     - bin/**/*
     - gemfiles/**/*
@@ -8,3 +8,7 @@ AllCops:
     - vendor/**/*
 
 inherit_from: .rubocop_todo.yml
+
+plugins:
+  - rubocop-rake
+  - rubocop-rspec

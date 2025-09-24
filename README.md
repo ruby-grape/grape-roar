@@ -1,20 +1,43 @@
 Grape::Roar
-------------
+-----------
 
 [![Gem Version](http://img.shields.io/gem/v/grape-roar.svg)](http://badge.fury.io/rb/grape-roar)
-[![Build Status](http://img.shields.io/travis/ruby-grape/grape-roar.svg)](https://travis-ci.org/ruby-grape/grape-roar)
-[![Dependency Status](https://gemnasium.com/ruby-grape/grape-roar.svg)](https://gemnasium.com/ruby-grape/grape-roar)
-[![Code Climate](https://codeclimate.com/github/ruby-grape/grape-roar.svg)](https://codeclimate.com/github/ruby-grape/grape-roar)
+[![test](https://github.com/ruby-grape/grape-roar/actions/workflows/test.yml/badge.svg)](https://github.com/ruby-grape/grape-roar/actions/workflows/test.yml)
+[![test-activerecord](https://github.com/ruby-grape/grape-roar/actions/workflows/test-activerecord.yml/badge.svg)](https://github.com/ruby-grape/grape-roar/actions/workflows/test-activerecord.yml)
+[![test-mongodb](https://github.com/ruby-grape/grape-roar/actions/workflows/test-mongodb.yml/badge.svg)](https://github.com/ruby-grape/grape-roar/actions/workflows/test-mongodb.yml)
 
 Use [Roar](https://github.com/apotonick/roar) with [Grape](https://github.com/intridea/grape).
 
-Demo
-----
+## Table of Contents
 
-The [grape-with-roar](https://github.com/ruby-grape/grape-with-roar) project deployed [here on heroku](http://grape-with-roar.herokuapp.com).
+- [Demo](#demo)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Tell your API to use Grape::Formatter::Roar](#tell-your-api-to-use-grapeformatterroar)
+  - [Use Grape’s Present](#use-grapes-present)
+  - [Accessing the Request Inside a Representer](#accessing-the-request-inside-a-representer)
+  - [Decorators](#decorators)
+  - [Relation Extensions](#relation-extensions)
+    - [Designing Representers](#designing-representers)
+      - [Example Models](#example-models)
+      - [Example Representers](#example-representers)
+      - [Example Item](#example-item)
+      - [Example Cart](#example-cart)
+    - [Errors](#errors)
+    - [Change how URLs are presented](#change-how-urls-are-presented)
+      - [Override base URI mappings](#override-base-uri-mappings)
+      - [Override resource URI mappings](#override-resource-uri-mappings)
+    - [Designing Adapters](#designing-adapters)
+      - [Example: ActiveRecord Adapter](#example-activerecord-adapter)
+      - [Validations](#validations)
+- [Contributing](#contributing)
+- [Copyright and License](#copyright-and-license)
 
-Installation
-------------
+## Demo
+
+See [grape-with-roar](https://github.com/ruby-grape/grape-with-roar).
+
+## Installation
 
 Add the `grape`, `roar` and `grape-roar` gems to Gemfile.
 
@@ -26,8 +49,7 @@ gem 'grape-roar'
 
 If you're upgrading from an older version of this gem, please see [UPGRADING](UPGRADING.md).
 
-Usage
------
+## Usage
 
 ### Tell your API to use Grape::Formatter::Roar
 
@@ -338,15 +360,12 @@ end
 
 After writing your validation methods, just mix them into your adapter. You can choose to not write validation methods; they are only invoked if your adapter responds to them. 
 
-
-Contributing
-------------
+## Contributing
 
 See [CONTRIBUTING](CONTRIBUTING.md).
 
-Copyright and License
----------------------
+## Copyright and License
 
 MIT License, see [LICENSE](LICENSE) for details.
 
-(c) 2012-2014 [Daniel Doubrovkine](https://github.com/dblock) & Contributors, [Artsy](https://artsy.net)
+(c) 2012-2025 [Daniel Doubrovkine](https://github.com/dblock) & Contributors, [Artsy](https://artsy.net)

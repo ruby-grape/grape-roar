@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-describe Grape::Roar::Extensions::Relations::Validations::ActiveRecord, active_record: true do
+describe Grape::Roar::Extensions::Relations::Validations::ActiveRecord, activerecord: true do
   let(:model_klass) { double }
 
   subject do

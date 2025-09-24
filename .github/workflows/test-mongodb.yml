@@ -1,0 +1,29 @@
+---
+name: test-mongodb
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        entry:
+          - { ruby: '3.4', mongoid: '6.4.8', mongodb: '6.0', grape: '1.7.0' }
+    name: test (ruby=${{ matrix.entry.ruby }}, mongoid=${{ matrix.entry.mongoid }}, mongodb=${{ matrix.entry.mongodb }}, grape=${{ matrix.entry.grape }})
+    env:
+      MONGOID_VERSION: ${{ matrix.entry.mongoid }}
+      GRAPE_VERSION: ${{ matrix.entry.grape }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.entry.ruby }}
+          bundler-cache: true
+      - uses: supercharge/mongodb-github-action@1.7.0
+        with:
+          mongodb-version: ${{ matrix.entry.mongodb }}
+      - name: Run Tests
+        run: bundle exec rake
+      - name: Run Mongoid Tagged Tests
+        env:
+          SPEC_OPTS: --tag mongoid
+        run: bundle exec rake
