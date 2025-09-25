@@ -9,70 +9,36 @@ module Grape
             include Validations::Misc
 
             def belongs_to_valid?(relation)
-              relation = klass.reflect_on_association(relation)
-
-              return true if relation[:relation] ==
-                             ::Mongoid::Relations::Referenced::In
-
-              invalid_relation(
-                ::Mongoid::Relations::Referenced::In, relation[:relation]
-              )
+              _valid_relation? relation, ::Mongoid::Relations::Referenced::In
             end
 
             def embeds_many_valid?(relation)
-              relation = klass.reflect_on_association(relation)
-
-              return true if relation[:relation] ==
-                             ::Mongoid::Relations::Embedded::Many
-
-              invalid_relation(
-                ::Mongoid::Relations::Embedded::Many, relation[:relation]
-              )
+              _valid_relation? relation, ::Mongoid::Relations::Embedded::Many
             end
 
             def embeds_one_valid?(relation)
-              relation = klass.reflect_on_association(relation)
-
-              return true if relation[:relation] ==
-                             ::Mongoid::Relations::Embedded::One
-
-              invalid_relation(
-                ::Mongoid::Relations::Embedded::One, relation[:relation]
-              )
+              _valid_relation? relation, ::Mongoid::Relations::Embedded::One
             end
 
             def has_many_valid?(relation)
-              relation = klass.reflect_on_association(relation)
-
-              return true if relation[:relation] ==
-                             ::Mongoid::Relations::Referenced::Many
-
-              invalid_relation(
-                ::Mongoid::Relations::Referenced::Many, relation[:relation]
-              )
+              _valid_relation? relation, ::Mongoid::Relations::Referenced::Many
             end
 
             def has_and_belongs_to_many_valid?(relation)
-              relation = klass.reflect_on_association(relation)
-
-              return true if relation[:relation] ==
-                             ::Mongoid::Relations::Referenced::ManyToMany
-
-              invalid_relation(
-                ::Mongoid::Relations::Referenced::ManyToMany,
-                relation[:relation]
-              )
+              _valid_relation? relation, ::Mongoid::Relations::Referenced::ManyToMany
             end
 
             def has_one_valid?(relation)
+              _valid_relation? relation, ::Mongoid::Relations::Referenced::One
+            end
+
+            private
+
+            def _valid_relation?(relation, relation_klass)
               relation = klass.reflect_on_association(relation)
+              return true if relation[:relation] == relation_klass
 
-              return true if relation[:relation] ==
-                             ::Mongoid::Relations::Referenced::One
-
-              invalid_relation(
-                ::Mongoid::Relations::Referenced::One, relation[:relation]
-              )
+              invalid_relation(relation_klass, relation[:relation])
             end
           end
         end
