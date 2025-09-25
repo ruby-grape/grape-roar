@@ -200,7 +200,7 @@ end
 Although this example uses `Grape::Roar::Decorator`, you can also use a module as show in prior examples above. If doing so, you no longer have to mix in `Grape::Roar::Representer`. 
 
 ##### Example Item
-```javascript
+```json
 {
     "_embedded": {
         "cart": {
@@ -223,7 +223,7 @@ Although this example uses `Grape::Roar::Decorator`, you can also use a module a
 ```
 
 ##### Example Cart
-```javascript
+```json
 {
     "_links": {
         "self": {
