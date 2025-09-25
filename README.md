@@ -246,11 +246,11 @@ Although this example uses `Grape::Roar::Decorator`, you can also use a module a
 
 #### Errors
 
-Should you incorrectly describe a relationship (e.g. you specify has_one but your model specifies has_many), an exception will be raised to notify you of the mismatch:
+Should you incorrectly describe a relationship (e.g. you specify `has_one` but your model specifies `has_many`), an exception will be raised to notify you of the mismatch:
 
 ```ruby
 Grape::Roar::Extensions::Relations::Exceptions::InvalidRelationError:
-  Expected Mongoid::Relations::Referenced::One, got Mongoid::Relations::Referenced::Many!
+  Expected Mongoid::Association::Referenced::HasOne, got Mongoid::Association::Referenced::HasMany!
 ```
 
 #### Change how URLs are presented
@@ -308,7 +308,7 @@ module Extensions
         include Validations::ActiveRecord
 
         # We map your domain object to the correct adapter
-        # during runtime.
+        # at runtime.
         valid_for { |klass| klass < ::ActiveRecord::Base }
 
         def collection_methods

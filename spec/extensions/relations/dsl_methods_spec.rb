@@ -5,7 +5,7 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
     Class.new.tap { |c| c.singleton_class.include(described_class) }
   end
 
-  context '#link_relation' do
+  describe '#link_relation' do
     let(:relation) { double }
     let(:collection) { false }
 
@@ -29,7 +29,7 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
     end
   end
 
-  context '#name_for_represented' do
+  describe '#name_for_represented' do
     let(:represented) { double }
 
     after { subject.name_for_represented(represented) }
@@ -49,7 +49,7 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
         .and_return(relational_mapper)
     end
 
-    context '#relation' do
+    describe '#relation' do
       let(:relation_name) { double }
       let(:relation_kind) { :has_many }
       let(:opts) { {} }
@@ -63,7 +63,7 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
       end
     end
 
-    context '#link_self' do
+    describe '#link_self' do
       after { subject.link_self }
 
       it 'calls the method correctly' do
@@ -74,7 +74,7 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
     end
   end
 
-  context '#map_base_url' do
+  describe '#map_base_url' do
     let(:grape_request) do
       OpenStruct.new(base_url: 'foo/', script_name: 'v1')
     end
@@ -93,14 +93,14 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
     context 'with user provided block' do
       let(:block) { proc {} }
 
-      it 'should return the user block' do
+      it 'returns the user block' do
         subject.map_base_url(&block)
         expect(subject.map_base_url).to eql(block)
       end
     end
   end
 
-  context '#map_self_url' do
+  describe '#map_self_url' do
     after { subject.map_self_url }
 
     it 'calls the correct method' do
@@ -108,7 +108,7 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
     end
   end
 
-  context '#map_resource_path' do
+  describe '#map_resource_path' do
     let(:object)   { OpenStruct.new(id: 4) }
     let(:opts)     { double }
     let(:relation) { 'baz' }
@@ -122,14 +122,14 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
     context 'with user provided block' do
       let(:block) { proc {} }
 
-      it 'should return the user block' do
+      it 'returns the user block' do
         subject.map_resource_path(&block)
         expect(subject.map_resource_path).to eql(block)
       end
     end
   end
 
-  context '#represent' do
+  describe '#represent' do
     let(:object) { double }
     let(:options) { double }
 
@@ -142,7 +142,7 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
 
     after { subject.represent(object, options) }
 
-    it 'should map relations and invoke super' do
+    it 'maps relations and invoke super' do
       expect(subject).to receive(:map_relations).with(object)
       expect(subject.superclass).to receive(:represent).with(object, options)
     end
@@ -150,8 +150,8 @@ describe Grape::Roar::Extensions::Relations::DSLMethods do
     context 'with relations mapped' do
       let(:relations_mapped) { true }
 
-      it 'should not map relations and invoke super' do
-        expect(subject).to_not receive(:map_relations).with(object)
+      it 'does not map relations and invoke super' do
+        expect(subject).not_to receive(:map_relations).with(object)
         expect(subject.superclass).to receive(:represent).with(object, options)
       end
     end

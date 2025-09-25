@@ -6,6 +6,7 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'ostruct'
 require 'bigdecimal'
 require 'base64'
+require 'logger'
 
 require 'bundler'
 Bundler.setup :default, :test
