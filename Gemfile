@@ -16,6 +16,10 @@ end
 group :development, :test do
   gem 'base64'
   gem 'bigdecimal'
+  gem 'danger'
+  gem 'danger-changelog'
+  gem 'danger-pr-comment'
+  gem 'danger-toc'
   gem 'mutex_m'
   gem 'nokogiri'
   gem 'ostruct'

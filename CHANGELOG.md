@@ -1,5 +1,6 @@
 ### 0.5.1 (Next)
 
+* [#35](https://github.com/ruby-grape/grape-roar/pull/35): Migrate Danger to use danger-pr-comment workflow - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.5.0 (2025/09/25)
