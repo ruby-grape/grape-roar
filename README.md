@@ -39,6 +39,8 @@ See [grape-with-roar](https://github.com/ruby-grape/grape-with-roar).
 
 ## Installation
 
+CI covers Grape 1.x through 4.x on compatible Ruby versions, including Ruby 4.0. Grape 1.x requires Rack 2.x; newer Grape versions are tested with Rack 3.x. See [CONTRIBUTING](CONTRIBUTING.md#bundle-install-and-test) for the core and ORM compatibility matrices and local test commands.
+
 Add the `grape`, `roar` and `grape-roar` gems to Gemfile.
 
 ```ruby

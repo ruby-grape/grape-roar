@@ -1,34 +1,31 @@
 ---
 name: test-activerecord
 on: [push, pull_request]
+permissions:
+  contents: read
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         entry:
-          - { ruby: '3.4', postgresql: '15', activerecord: '~> 6.1.0', grape: '~> 1.8.0' }
-          - { ruby: '3.4', postgresql: '16', activerecord: '~> 7.2.0', grape: '~> 2.4.0' }
-          - { ruby: '3.4', postgresql: '17', activerecord: '~> 8.0.3', grape: '~> 2.4.0' }
-    name: test (ruby=${{ matrix.entry.ruby }}, postgresql=${{ matrix.entry.postgresql }}, activerecord=${{ matrix.entry.activerecord }}, grape=${{ matrix.entry.grape }})
+          - { ruby: '3.3', activerecord: '~> 6.1.0', grape: '~> 1.8', rack: '~> 2.2' }
+          - { ruby: '3.3', activerecord: '~> 7.2.0', grape: '~> 2.4' }
+          - { ruby: '3.3', activerecord: '~> 7.2.0', grape: '~> 3.0' }
+          - { ruby: '3.4', activerecord: '~> 8.0.0', grape: '~> 2.4' }
+          - { ruby: '3.4', activerecord: '~> 8.1.0', grape: '~> 4.0' }
+          - { ruby: '4.0', activerecord: '~> 8.1.0', grape: '~> 4.0' }
+    name: test (ruby=${{ matrix.entry.ruby }}, activerecord=${{ matrix.entry.activerecord }}, grape=${{ matrix.entry.grape }})
     env:
       ACTIVERECORD_VERSION: ${{ matrix.entry.activerecord }}
       GRAPE_VERSION: ${{ matrix.entry.grape }}
+      RACK_VERSION: ${{ matrix.entry.rack || '>= 0' }}
     steps:
-      - uses: harmon758/postgresql-action@v1
-        with:
-          postgresql version: ${{ matrix.entry.postgresql }}
-          postgresql db: slack_ruby_bot_server_test
-          postgresql user: test
-          postgresql password: password
       - uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.entry.ruby }}
           bundler-cache: true
-      - name: Run ActiveRecord Tests
-        env:
-          SPEC_OPTS: --tag activerecord
-        run: bundle exec rake
       - name: Run Tests
-        run: bundle exec rake
+        run: bundle exec rake spec

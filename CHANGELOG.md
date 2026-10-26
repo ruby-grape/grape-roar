@@ -1,6 +1,7 @@
 ### 0.5.1 (Next)
 
 * [#35](https://github.com/ruby-grape/grape-roar/pull/35): Migrate Danger to use danger-pr-comment workflow - [@dblock](https://github.com/dblock).
+* [#37](https://github.com/ruby-grape/grape-roar/pull/37): Modernize CI with Ruby 2.7-4.0 and Grape 1.x-4.x coverage, test newer Grape and ORM combinations with Rack 3.x, and run MongoDB in service containers; include ORM examples automatically when their dependencies are selected - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.5.0 (2025/09/25)

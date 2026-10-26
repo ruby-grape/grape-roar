@@ -24,16 +24,15 @@ require 'rspec'
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
-  config.filter_run_excluding(
-    activerecord: true, mongoid: true
-  )
+  config.filter_run_excluding activerecord: true unless defined?(ActiveRecord)
+  config.filter_run_excluding mongoid: true unless defined?(Mongoid)
 end
 
-Dir["#{File.dirname(__FILE__)}/support/all/**/*.rb"].each { |f| require f }
+Dir["#{File.dirname(__FILE__)}/support/all/**/*.rb"].sort.each { |f| require f }
 
 # For Relational Extension Tests
 if defined?(Mongoid)
   ENV['MONGOID_ENV'] ||= 'test'
   Mongoid.load!('./spec/config/mongoid.yml')
-  Dir["#{File.dirname(__FILE__)}/support/mongoid/**/*.rb"].each { |f| require f }
+  Dir["#{File.dirname(__FILE__)}/support/mongoid/**/*.rb"].sort.each { |f| require f }
 end
