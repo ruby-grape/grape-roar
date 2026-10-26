@@ -1,14 +1,29 @@
 ---
 name: test
 on: [push, pull_request]
+permissions:
+  contents: read
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.entry.os || 'ubuntu-latest' }}
+    continue-on-error: ${{ matrix.entry.experimental || false }}
     strategy:
+      fail-fast: false
       matrix:
         entry:
-          - { ruby: 3.4 }
-    name: test (ruby=${{ matrix.entry.ruby }})
+          - { ruby: '2.7', grape: '~> 1.8', rack: '~> 2.2', os: 'ubuntu-22.04' }
+          - { ruby: '2.7', grape: '~> 2.4', os: 'ubuntu-22.04' }
+          - { ruby: '3.3', grape: '~> 1.8', rack: '~> 2.2' }
+          - { ruby: '3.3', grape: '~> 2.4' }
+          - { ruby: '3.3', grape: '~> 3.0' }
+          - { ruby: '3.3', grape: '~> 4.0' }
+          - { ruby: '3.4', grape: '~> 4.0' }
+          - { ruby: '4.0', grape: '~> 4.0' }
+          - { ruby: 'ruby-head', grape: '~> 4.0', experimental: true }
+    name: test (ruby=${{ matrix.entry.ruby }}, grape=${{ matrix.entry.grape }})
+    env:
+      GRAPE_VERSION: ${{ matrix.entry.grape }}
+      RACK_VERSION: ${{ matrix.entry.rack || '>= 0' }}
     steps:
       - uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
@@ -16,4 +31,4 @@ jobs:
           ruby-version: ${{ matrix.entry.ruby }}
           bundler-cache: true
       - name: Run Tests
-        run: bundle exec rake
+        run: bundle exec rake spec

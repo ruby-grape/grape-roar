@@ -32,6 +32,24 @@ bundle install
 bundle exec rake
 ```
 
+GitHub Actions tests Grape 1.x through 4.x. The core matrix includes Ruby 2.7 with Grape 1.x/2.x, Ruby 3.3 with every Grape major, and Ruby 3.4/4.0 with Grape 4.x. The ruby-head job is allowed to fail. Ruby 2.7 uses Ubuntu 22.04; newer Rubies use the latest Ubuntu runner.
+
+Select dependency versions with `GRAPE_VERSION`, `RACK_VERSION`, `ACTIVERECORD_VERSION`, and `MONGOID_VERSION`. Resolve the bundle again when changing versions:
+
+```sh
+GRAPE_VERSION='~> 4.0' bundle update
+GRAPE_VERSION='~> 4.0' bundle exec rake
+```
+
+Grape 1.x requires Rack 2.x:
+
+```sh
+GRAPE_VERSION='~> 1.8' RACK_VERSION='~> 2.2' bundle update
+GRAPE_VERSION='~> 1.8' RACK_VERSION='~> 2.2' bundle exec rake
+```
+
+Setting `ACTIVERECORD_VERSION` or `MONGOID_VERSION` loads that ORM and automatically includes its tagged examples in the suite. ActiveRecord adapter and validation tests do not require a database. Mongoid examples require MongoDB at `localhost:27017` and use the dedicated `grape_roar_test` database. CI runs MongoDB service containers for Mongoid 6.x through 9.x and tests newer Grape versions with ORM releases that permit their ActiveSupport requirements.
+
 #### Write Tests
 
 Try to write a test that reproduces the problem you're trying to fix or describes a feature that you want to build. Add to [spec/grape-roar](spec/grape-roar).
@@ -107,7 +125,7 @@ git push origin my-feature-branch -f
 
 #### Check on Your Pull Request
 
-Go back to your pull request after a few minutes and see whether it passed muster with Travis-CI. Everything should look green, otherwise fix issues and amend your commit as described above.
+Go back to your pull request after a few minutes and check its GitHub Actions results. Everything should look green, otherwise fix issues and amend your commit as described above.
 
 #### Be Patient
 
