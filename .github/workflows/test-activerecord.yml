@@ -1,6 +1,6 @@
 ---
 name: test-activerecord
-on: [push, pull_request]
+on: workflow_call
 permissions:
   contents: read
 jobs:
@@ -10,12 +10,12 @@ jobs:
       fail-fast: false
       matrix:
         entry:
-          - { ruby: '3.3', activerecord: '~> 6.1.0', grape: '~> 1.8', rack: '~> 2.2' }
-          - { ruby: '3.3', activerecord: '~> 7.2.0', grape: '~> 2.4' }
-          - { ruby: '3.3', activerecord: '~> 7.2.0', grape: '~> 3.0' }
-          - { ruby: '3.4', activerecord: '~> 8.0.0', grape: '~> 2.4' }
-          - { ruby: '3.4', activerecord: '~> 8.1.0', grape: '~> 4.0' }
-          - { ruby: '4.0', activerecord: '~> 8.1.0', grape: '~> 4.0' }
+          - { ruby: '3.3', activerecord: '~> 6.1.0', grape: '~> 1.8', rack: '~> 2.2', coverage: false }
+          - { ruby: '3.3', activerecord: '~> 7.2.0', grape: '~> 2.4', coverage: false }
+          - { ruby: '3.3', activerecord: '~> 7.2.0', grape: '~> 3.0', coverage: true }
+          - { ruby: '3.4', activerecord: '~> 8.0.0', grape: '~> 2.4', coverage: false }
+          - { ruby: '3.4', activerecord: '~> 8.1.0', grape: '~> 4.0', coverage: false }
+          - { ruby: '4.0', activerecord: '~> 8.1.0', grape: '~> 4.0', coverage: false }
     name: test (ruby=${{ matrix.entry.ruby }}, activerecord=${{ matrix.entry.activerecord }}, grape=${{ matrix.entry.grape }})
     env:
       ACTIVERECORD_VERSION: ${{ matrix.entry.activerecord }}
@@ -29,3 +29,11 @@ jobs:
           bundler-cache: true
       - name: Run Tests
         run: bundle exec rake spec
+      - uses: coverallsapp/github-action@v2
+        if: matrix.entry.coverage
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: coverage/lcov/grape-roar.lcov
+          format: lcov
+          flag-name: activerecord-${{ strategy.job-index }}
+          parallel: true

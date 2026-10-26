@@ -50,6 +50,8 @@ GRAPE_VERSION='~> 1.8' RACK_VERSION='~> 2.2' bundle exec rake
 
 Setting `ACTIVERECORD_VERSION` or `MONGOID_VERSION` loads that ORM and automatically includes its tagged examples in the suite. ActiveRecord adapter and validation tests do not require a database. Mongoid examples require MongoDB at `localhost:27017` and use the dedicated `grape_roar_test` database. CI runs MongoDB service containers for Mongoid 6.x through 9.x and tests newer Grape versions with ORM releases that permit their ActiveSupport requirements.
 
+Spec runs generate `coverage/lcov/grape-roar.lcov` with SimpleCov. `test.yml` runs the core matrix and calls the separate reusable `test-activerecord.yml` and `test-mongodb.yml` workflows. Only `test.yml` handles push and pull-request events, so the ORM matrices run once per event. ORM entries marked `coverage: true` upload reports using the built-in GitHub token, covering ActiveRecord and both Mongoid association implementations without extra test runs. After the core matrix and both reusable workflows succeed, one completion job in `test.yml` merges the uploads into a single Coveralls report.
+
 #### Write Tests
 
 Try to write a test that reproduces the problem you're trying to fix or describes a feature that you want to build. Add to [spec/grape-roar](spec/grape-roar).

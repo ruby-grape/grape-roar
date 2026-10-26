@@ -10,6 +10,16 @@ require 'logger'
 
 require 'bundler'
 Bundler.setup :default, :test
+
+require 'simplecov'
+require 'simplecov-lcov'
+SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
+SimpleCov::Formatter::LcovFormatter.config.lcov_file_name = 'grape-roar.lcov'
+SimpleCov.formatter = SimpleCov::Formatter::LcovFormatter
+SimpleCov.start do
+  add_filter '/spec/'
+end
+
 Bundler.require
 
 require 'grape'

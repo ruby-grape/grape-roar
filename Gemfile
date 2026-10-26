@@ -12,6 +12,8 @@ gemspec
 group :test do
   gem 'rack-test'
   gem 'rspec'
+  gem 'simplecov', require: false
+  gem 'simplecov-lcov', require: false
 end
 
 group :development, :test do
