@@ -60,4 +60,57 @@ describe Grape::Roar do
       expect(cache.size).to eq(2)
     end
   end
+
+  shared_examples 'representing hash values' do
+    let(:property_key) { :some_property }
+    let(:record) { { property_key => 'From a hash', internal: 'Not exposed' } }
+
+    before do
+      key = property_key
+      representer.property :some_property, getter: ->(*) { fetch(key) }
+      stub_const('HashRepresenter', representer)
+
+      data = record
+      subject.get('/hash') do
+        present data, with: HashRepresenter
+      end
+    end
+
+    it 'reads symbol keys and excludes undeclared entries' do
+      get '/hash'
+
+      expect(JSON.parse(last_response.body)).to eq('some_property' => 'From a hash')
+    end
+
+    context 'with string keys' do
+      let(:property_key) { 'some_property' }
+
+      it 'reads the explicitly configured string key' do
+        get '/hash'
+
+        expect(JSON.parse(last_response.body)).to eq('some_property' => 'From a hash')
+      end
+    end
+  end
+
+  context 'with a module-based hash representer' do
+    let(:representer) do
+      Module.new do
+        include Roar::JSON
+        include Grape::Roar::Representer
+      end
+    end
+
+    it_behaves_like 'representing hash values'
+  end
+
+  context 'with a hash decorator' do
+    let(:representer) do
+      Class.new(Grape::Roar::Decorator) do
+        include Roar::JSON
+      end
+    end
+
+    it_behaves_like 'representing hash values'
+  end
 end
