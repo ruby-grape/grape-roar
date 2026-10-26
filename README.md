@@ -17,6 +17,7 @@ Use [Roar](https://github.com/apotonick/roar) with [Grape](https://github.com/in
   - [Use Grape’s Present](#use-grapes-present)
   - [Accessing the Request Inside a Representer](#accessing-the-request-inside-a-representer)
   - [Decorators](#decorators)
+  - [Nested Representers](#nested-representers)
   - [Relation Extensions](#relation-extensions)
     - [Designing Representers](#designing-representers)
       - [Example Models](#example-models)
@@ -144,6 +145,58 @@ get 'products' do
   present Product.all, with: ProductsRepresenter
 end
 ```
+
+### Nested Representers
+
+Use `property` for a single nested object and `collection` for multiple objects, specifying the representer at each level with `extend:`. For example, notifications can contain comments, posts, and images:
+
+```ruby
+class ImageRepresenter < Grape::Roar::Decorator
+  include Roar::JSON
+
+  property :id
+  property :url
+end
+
+class PostRepresenter < Grape::Roar::Decorator
+  include Roar::JSON
+
+  property :id
+  property :title
+  property :image, extend: ImageRepresenter
+end
+
+class CommentRepresenter < Grape::Roar::Decorator
+  include Roar::JSON
+
+  property :id
+  property :body
+  property :post, extend: PostRepresenter
+end
+
+class NotificationRepresenter < Grape::Roar::Decorator
+  include Roar::JSON
+
+  property :id
+  property :comment, extend: CommentRepresenter
+end
+
+class NotificationsRepresenter < Grape::Roar::Decorator
+  include Roar::JSON
+
+  collection :entries, as: :notifications, extend: NotificationRepresenter
+end
+```
+
+```ruby
+get 'notifications' do
+  present Notification.all, with: NotificationsRepresenter
+end
+```
+
+The response has a top-level `notifications` array; each notification contains its `comment`, whose `post` contains an `image`. Each representer controls only its own object's attributes, so an image's `id` does not replace its post's `id`.
+
+Decorators wrap objects instead of extending them with representer modules. This is useful when the same model instance is shared between notifications or rendered with different representations. Keep the nested objects separate and let Roar compose the response rather than merging child attributes into a parent's hash.
 
 ### Relation Extensions
 
