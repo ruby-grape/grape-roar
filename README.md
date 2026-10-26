@@ -15,6 +15,7 @@ Use [Roar](https://github.com/apotonick/roar) with [Grape](https://github.com/in
 - [Usage](#usage)
   - [Tell your API to use Grape::Formatter::Roar](#tell-your-api-to-use-grapeformatterroar)
   - [Use Grape’s Present](#use-grapes-present)
+  - [Hash-backed Representers](#hash-backed-representers)
   - [Accessing the Request Inside a Representer](#accessing-the-request-inside-a-representer)
   - [Decorators](#decorators)
   - [Nested Representers](#nested-representers)
@@ -102,6 +103,29 @@ get 'products' do
   present Product.all, with: ProductsRepresenter
 end
 ```
+
+### Hash-backed Representers
+
+A plain `property :some_property` reads `object.some_property`; it does not read `object[:some_property]`. When presenting a Hash, specify a getter instead of relying on implicit conversion to an object with attribute methods:
+
+```ruby
+module HashRepresenter
+  include Roar::JSON
+  include Grape::Roar::Representer
+
+  property :some_property, getter: ->(*) { fetch(:some_property) }
+end
+```
+
+```ruby
+get 'hash' do
+  present({ some_property: 'From a hash', internal: 'Not exposed' }, with: HashRepresenter)
+end
+```
+
+The response is `{"some_property":"From a hash"}`. Only declared properties are serialized. For string-keyed hashes, such as those returned by `JSON.parse`, use `fetch('some_property')` in the getter instead. Hash key types are not converted automatically, and `fetch` raises `KeyError` if the configured key is absent.
+
+The same getter works in a class inheriting from `Grape::Roar::Decorator` with `Roar::JSON` included. Getters execute against the represented Hash by default; a decorator wraps it rather than adding representer methods to the Hash itself.
 
 ### Accessing the Request Inside a Representer
 
