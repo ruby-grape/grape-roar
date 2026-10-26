@@ -32,3 +32,16 @@ jobs:
           bundler-cache: true
       - name: Run Tests
         run: bundle exec rake spec
+  test-activerecord:
+    uses: ./.github/workflows/test-activerecord.yml
+  test-mongodb:
+    uses: ./.github/workflows/test-mongodb.yml
+  finish:
+    name: Finish Coveralls
+    needs: [test, test-activerecord, test-mongodb]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true

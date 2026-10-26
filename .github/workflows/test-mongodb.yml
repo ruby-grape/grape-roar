@@ -1,6 +1,6 @@
 ---
 name: test-mongodb
-on: [push, pull_request]
+on: workflow_call
 permissions:
   contents: read
 jobs:
@@ -10,13 +10,13 @@ jobs:
       fail-fast: false
       matrix:
         entry:
-          - { ruby: '3.3', mongoid: '~> 6.4.8', mongodb: '6.0', grape: '~> 1.7.0', rack: '~> 2.2' }
-          - { ruby: '3.3', mongoid: '~> 6.4.8', mongodb: '6.0', grape: '~> 2.0.0' }
-          - { ruby: '3.3', mongoid: '~> 7.5.4', mongodb: '7.0', grape: '~> 2.4' }
-          - { ruby: '3.3', mongoid: '~> 8.1.11', mongodb: '8.0', grape: '~> 2.4' }
-          - { ruby: '3.3', mongoid: '~> 8.1.11', mongodb: '8.0', grape: '~> 3.0' }
-          - { ruby: '3.4', mongoid: '~> 9.1', mongodb: '8.0', grape: '~> 4.0' }
-          - { ruby: '4.0', mongoid: '~> 9.1', mongodb: '8.0', grape: '~> 4.0' }
+          - { ruby: '3.3', mongoid: '~> 6.4.8', mongodb: '6.0', grape: '~> 1.7.0', rack: '~> 2.2', coverage: false }
+          - { ruby: '3.3', mongoid: '~> 6.4.8', mongodb: '6.0', grape: '~> 2.0.0', coverage: true }
+          - { ruby: '3.3', mongoid: '~> 7.5.4', mongodb: '7.0', grape: '~> 2.4', coverage: false }
+          - { ruby: '3.3', mongoid: '~> 8.1.11', mongodb: '8.0', grape: '~> 2.4', coverage: false }
+          - { ruby: '3.3', mongoid: '~> 8.1.11', mongodb: '8.0', grape: '~> 3.0', coverage: false }
+          - { ruby: '3.4', mongoid: '~> 9.1', mongodb: '8.0', grape: '~> 4.0', coverage: true }
+          - { ruby: '4.0', mongoid: '~> 9.1', mongodb: '8.0', grape: '~> 4.0', coverage: false }
     name: test (ruby=${{ matrix.entry.ruby }}, mongoid=${{ matrix.entry.mongoid }}, mongodb=${{ matrix.entry.mongodb }}, grape=${{ matrix.entry.grape }})
     env:
       MONGOID_VERSION: ${{ matrix.entry.mongoid }}
@@ -40,3 +40,11 @@ jobs:
           bundler-cache: true
       - name: Run Tests
         run: bundle exec rake spec
+      - uses: coverallsapp/github-action@v2
+        if: matrix.entry.coverage
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: coverage/lcov/grape-roar.lcov
+          format: lcov
+          flag-name: mongoid-${{ strategy.job-index }}
+          parallel: true

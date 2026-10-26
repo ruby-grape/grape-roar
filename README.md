@@ -2,9 +2,8 @@ Grape::Roar
 -----------
 
 [![Gem Version](http://img.shields.io/gem/v/grape-roar.svg)](http://badge.fury.io/rb/grape-roar)
+[![Coverage Status](https://coveralls.io/repos/github/ruby-grape/grape-roar/badge.svg?branch=master)](https://coveralls.io/github/ruby-grape/grape-roar?branch=master)
 [![test](https://github.com/ruby-grape/grape-roar/actions/workflows/test.yml/badge.svg)](https://github.com/ruby-grape/grape-roar/actions/workflows/test.yml)
-[![test-activerecord](https://github.com/ruby-grape/grape-roar/actions/workflows/test-activerecord.yml/badge.svg)](https://github.com/ruby-grape/grape-roar/actions/workflows/test-activerecord.yml)
-[![test-mongodb](https://github.com/ruby-grape/grape-roar/actions/workflows/test-mongodb.yml/badge.svg)](https://github.com/ruby-grape/grape-roar/actions/workflows/test-mongodb.yml)
 
 Use [Roar](https://github.com/apotonick/roar) with [Grape](https://github.com/intridea/grape).
 

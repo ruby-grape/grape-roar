@@ -5,6 +5,7 @@
 * [#40](https://github.com/ruby-grape/grape-roar/pull/40): Document deeply nested representers and verify shared post/image records retain their attributes across repeated requests - [@dblock](https://github.com/dblock).
 * [#42](https://github.com/ruby-grape/grape-roar/pull/42): Support caching plain rendered representations without forwarding Roar-only options to generic JSON encoders; document cache serialization and request-context keys - [@dblock](https://github.com/dblock).
 * [#41](https://github.com/ruby-grape/grape-roar/pull/41): Document hash-backed representers with explicit key getters and verify module/decorator rendering for symbol and string keys - [@dblock](https://github.com/dblock).
+* [#43](https://github.com/ruby-grape/grape-roar/pull/43): Add SimpleCov LCOV reports and a coverage badge; merge Coveralls reports from selected existing ORM matrix entries without duplicate test runs - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.5.0 (2025/09/25)
