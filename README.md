@@ -18,6 +18,7 @@ Use [Roar](https://github.com/apotonick/roar) with [Grape](https://github.com/in
   - [Accessing the Request Inside a Representer](#accessing-the-request-inside-a-representer)
   - [Decorators](#decorators)
   - [Nested Representers](#nested-representers)
+  - [Caching Representations](#caching-representations)
   - [Relation Extensions](#relation-extensions)
     - [Designing Representers](#designing-representers)
       - [Example Models](#example-models)
@@ -197,6 +198,26 @@ end
 The response has a top-level `notifications` array; each notification contains its `comment`, whose `post` contains an `image`. Each representer controls only its own object's attributes, so an image's `id` does not replace its post's `id`.
 
 Decorators wrap objects instead of extending them with representer modules. This is useful when the same model instance is shared between notifications or rendered with different representations. Keep the nested objects separate and let Roar compose the response rather than merging child attributes into a parent's hash.
+
+### Caching Representations
+
+`present object, with: Representer` returns a represented object, not a plain data snapshot. Module representers extend the object and attach serialization state, which can include Procs that a cache backend cannot serialize. Do not cache the represented model itself or change `represent` to return JSON globally.
+
+Instead, render a plain Hash with Roar's `to_hash` before storing it. For example, using your application's cache store as `CACHE`:
+
+```ruby
+get 'products/:id' do
+  cache_key = ['product-representation', request.url]
+  CACHE.fetch(cache_key) do
+    product = Product.find(params[:id])
+    ProductRepresenter.represent(product).to_hash(user_options: { env: env })
+  end
+end
+```
+
+Return the cached Hash directly; the formatter encodes it as a JSON object. Do not call `present` on it with the model representer again, or cache a `to_json` string and return that through the JSON formatter, which would encode it a second time.
+
+Rendering with `user_options: { env: env }` preserves request-aware links when populating the cache. The example includes the full request URL in the key because its self link depends on that URL. Include every other input that affects the response, such as authenticated user, locale, or header-based API version, in your cache key and invalidate cached representations when their source data changes. Alternatively, cache raw data and build a fresh model to present outside the cache block so request-dependent rendering runs on each request.
 
 ### Relation Extensions
 
