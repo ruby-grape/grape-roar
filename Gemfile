@@ -9,6 +9,9 @@ gem 'rack', ENV['RACK_VERSION'] if ENV.key?('RACK_VERSION')
 
 gemspec
 
+# MultiJson versions supporting older Rubies use JSON.load options removed in JSON 3.
+gem 'json', '< 3' if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('3.2')
+
 group :test do
   gem 'rack-test'
   gem 'rspec'

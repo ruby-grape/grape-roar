@@ -20,6 +20,7 @@ Use [Roar](https://github.com/apotonick/roar) with [Grape](https://github.com/in
   - [Hash-backed Representers](#hash-backed-representers)
   - [Accessing the Request Inside a Representer](#accessing-the-request-inside-a-representer)
   - [Decorators](#decorators)
+  - [Presenter Parameter Types](#presenter-parameter-types)
   - [Nested Representers](#nested-representers)
   - [Caching Representations](#caching-representations)
   - [Relation Extensions](#relation-extensions)
@@ -235,6 +236,46 @@ get 'products' do
   present Product.all, with: ProductsRepresenter
 end
 ```
+
+### Presenter Parameter Types
+
+Grape supports `type: Presenter` when the class implements its custom-type `.parse` contract. Define this on an application-specific input decorator: validate the input, parse only declared writable properties, and return a decorator instance so Grape's type check succeeds.
+
+```ruby
+class ParameterProductRepresenter < Grape::Roar::Decorator
+  include Roar::JSON
+
+  property :title
+
+  def self.parse(value)
+    raise ArgumentError, 'Expected a product object' unless value.is_a?(::Hash)
+
+    attributes = value.transform_keys(&:to_s)
+    title = attributes['title']
+    raise ArgumentError, 'Expected a nonblank title' unless title.is_a?(::String) && !title.strip.empty?
+
+    decorator = new(Product.new)
+    decorator.from_hash(attributes)
+    decorator
+  end
+end
+
+class ParameterAPI < Grape::API
+  format :json
+  formatter :json, Grape::Formatter::Roar
+
+  params do
+    requires :product, type: ParameterProductRepresenter
+  end
+  post 'products' do
+    params[:product]
+  end
+end
+```
+
+Send a JSON body such as `{"product":{"title":"Lonestar"}}` with `Content-Type: application/json`. Grape converts parse failures into HTTP 400 validation errors. The response is `{"title":"Lonestar"}`; undeclared properties are not assigned to the model. The coerced parameter is the decorator, and `params[:product].represented` gives the model for application-specific processing or persistence.
+
+Roar properties and Swagger response metadata do not automatically define required fields, validation, or a model constructor. Keep input validation explicit, use a separate input representer when writable fields differ from output fields, and do not add a generic parser that guesses which model to construct. `from_hash` returns the represented model, so return the decorator explicitly from `.parse` when using the decorator as the parameter type.
 
 ### Nested Representers
 
