@@ -8,6 +8,7 @@
 * [#43](https://github.com/ruby-grape/grape-roar/pull/43): Add SimpleCov LCOV reports and a coverage badge; merge Coveralls reports from selected existing ORM matrix entries without duplicate test runs - [@dblock](https://github.com/dblock).
 * [#44](https://github.com/ruby-grape/grape-roar/pull/44): Document dynamic Roar rendering options with native Hash responses and verify wrapping, callback data, request context, and request isolation for modules and decorators - [@dblock](https://github.com/dblock).
 * [#45](https://github.com/ruby-grape/grape-roar/pull/45): Document native array rendering with Roar's collection factory while preserving collection envelopes and request-aware links - [@dblock](https://github.com/dblock).
+* [#46](https://github.com/ruby-grape/grape-roar/pull/46): Document Grape's built-in representer lookup through model Entity constants and API-local decorator mappings, including explicit overrides - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.5.0 (2025/09/25)

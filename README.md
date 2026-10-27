@@ -16,6 +16,7 @@ Use [Roar](https://github.com/apotonick/roar) with [Grape](https://github.com/in
   - [Use Grape’s Present](#use-grapes-present)
   - [Dynamic Rendering Options](#dynamic-rendering-options)
   - [Native Array Representations](#native-array-representations)
+  - [Representer Lookup](#representer-lookup)
   - [Hash-backed Representers](#hash-backed-representers)
   - [Accessing the Request Inside a Representer](#accessing-the-request-inside-a-representer)
   - [Decorators](#decorators)
@@ -136,6 +137,37 @@ end
 The response is an array of individually represented products. Empty collections return `[]`, and callbacks receive the request environment. Return the native Array from `to_hash`, not a JSON string, so the formatter encodes it exactly once.
 
 `present products, with: ProductsRepresenter` still treats `ProductsRepresenter` as the representation of the whole collection. This preserves existing collection properties, envelopes, and HAL `_embedded` responses. Automatically treating every Array as a collection of individually represented resources would change those responses; use the explicit factory above when that is what you want.
+
+### Representer Lookup
+
+Grape can infer a representer from a model's `Entity` constant. Set it to a representer module or decorator, then call `present` without `with:`:
+
+```ruby
+class Product
+  Entity = ProductRepresenter
+end
+
+get 'product/:id' do
+  present Product.find(params[:id])
+end
+```
+
+For decorator classes, an API-local mapping avoids adding a constant to the model:
+
+```ruby
+class API < Grape::API
+  format :json
+  formatter :json, Grape::Formatter::Roar
+
+  represent Product, with: ProductRepresenter
+
+  get 'product/:id' do
+    present Product.find(params[:id])
+  end
+end
+```
+
+An explicit `present object, with: OtherRepresenter` overrides inference. These are Grape's existing lookup mechanisms; grape-roar does not guess global constants from model names, choose between singular and plural representers, or automatically represent arbitrary endpoint return values. Call `present` to request inference.
 
 ### Hash-backed Representers
 
