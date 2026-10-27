@@ -15,6 +15,7 @@ Use [Roar](https://github.com/apotonick/roar) with [Grape](https://github.com/in
   - [Tell your API to use Grape::Formatter::Roar](#tell-your-api-to-use-grapeformatterroar)
   - [Use Grape’s Present](#use-grapes-present)
   - [Dynamic Rendering Options](#dynamic-rendering-options)
+  - [Native Array Representations](#native-array-representations)
   - [Hash-backed Representers](#hash-backed-representers)
   - [Accessing the Request Inside a Representer](#accessing-the-request-inside-a-representer)
   - [Decorators](#decorators)
@@ -121,6 +122,20 @@ end
 This returns a JSON object wrapped under `"product"`, not a JSON-encoded string. It works with both representer modules and decorators. Hypermedia callbacks receive your user options directly; for example, `link(:student) { |opts| "/students/#{opts.fetch(:student).id}" }` can use the current student.
 
 `present product, with: ProductRepresenter` does not forward arbitrary options to Roar's later rendering step. Use the explicit `to_hash` call above instead, and do not return `to_json` output through the formatter: the formatter would encode that string again. Keep options local to each rendering call rather than modifying shared representer definitions.
+
+### Native Array Representations
+
+To render a plain array using a single-item representer, use Roar's native collection factory explicitly. This works with both representer modules and decorators:
+
+```ruby
+get 'products' do
+  ProductRepresenter.for_collection.prepare(Product.all.to_a).to_hash(user_options: { env: env })
+end
+```
+
+The response is an array of individually represented products. Empty collections return `[]`, and callbacks receive the request environment. Return the native Array from `to_hash`, not a JSON string, so the formatter encodes it exactly once.
+
+`present products, with: ProductsRepresenter` still treats `ProductsRepresenter` as the representation of the whole collection. This preserves existing collection properties, envelopes, and HAL `_embedded` responses. Automatically treating every Array as a collection of individually represented resources would change those responses; use the explicit factory above when that is what you want.
 
 ### Hash-backed Representers
 
