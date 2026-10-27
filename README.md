@@ -21,6 +21,7 @@ Use [Roar](https://github.com/apotonick/roar) with [Grape](https://github.com/in
   - [Accessing the Request Inside a Representer](#accessing-the-request-inside-a-representer)
   - [Decorators](#decorators)
   - [Presenter Parameter Types](#presenter-parameter-types)
+  - [Swagger Documentation](#swagger-documentation)
   - [Nested Representers](#nested-representers)
   - [Caching Representations](#caching-representations)
   - [Relation Extensions](#relation-extensions)
@@ -276,6 +277,42 @@ end
 Send a JSON body such as `{"product":{"title":"Lonestar"}}` with `Content-Type: application/json`. Grape converts parse failures into HTTP 400 validation errors. The response is `{"title":"Lonestar"}`; undeclared properties are not assigned to the model. The coerced parameter is the decorator, and `params[:product].represented` gives the model for application-specific processing or persistence.
 
 Roar properties and Swagger response metadata do not automatically define required fields, validation, or a model constructor. Keep input validation explicit, use a separate input representer when writable fields differ from output fields, and do not add a generic parser that guesses which model to construct. `from_hash` returns the represented model, so return the decorator explicitly from `.parse` when using the decorator as the parameter type.
+
+### Swagger Documentation
+
+The optional [grape-swagger-representable](https://github.com/Bugagazavr/grape-swagger-representable) parser documents Roar decorator classes. Add it and grape-swagger to your application's Gemfile; neither is required for rendering:
+
+```ruby
+gem 'grape-swagger'
+gem 'grape-swagger-representable'
+```
+
+Require the parser before calling `add_swagger_documentation`. Declare response field metadata under each property's `documentation:` option:
+
+```ruby
+require 'grape-swagger-representable'
+
+class ProductRepresenter < Grape::Roar::Decorator
+  include Roar::JSON
+
+  property :id, documentation: { type: Integer, desc: 'Product ID' }
+  property :title, documentation: { type: String, desc: 'Product title' }
+end
+
+class ProductsAPI < Grape::API
+  format :json
+  formatter :json, Grape::Formatter::Roar
+
+  desc 'Get a product', success: ProductRepresenter
+  get 'product/:id' do
+    present Product.find(params[:id]), with: ProductRepresenter
+  end
+
+  add_swagger_documentation
+end
+```
+
+`/swagger_doc/product` describes an integer `id` and string `title`, including their descriptions, while `/product/:id` renders the same properties with Roar. The parser registers decorator classes, not representer modules; use a decorator for a documented response model. Response documentation does not validate incoming parameters, and custom links, getters, and envelopes still need schemas that match their actual output.
 
 ### Nested Representers
 

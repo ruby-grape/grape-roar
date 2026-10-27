@@ -32,7 +32,7 @@ bundle install
 bundle exec rake
 ```
 
-GitHub Actions tests Grape 1.x through 4.x. The core matrix includes Ruby 2.7 with Grape 1.x/2.x, Ruby 3.3 with every Grape major, and Ruby 3.4/4.0 with Grape 4.x. The ruby-head job is allowed to fail. Ruby 2.7 uses Ubuntu 22.04; newer Rubies use the latest Ubuntu runner.
+GitHub Actions tests Grape 1.x through 4.x. The core matrix includes Ruby 2.7 with Grape 1.x/2.x, Ruby 3.3 with every Grape major, and Ruby 3.4/4.0 with Grape 4.x. The ruby-head job is allowed to fail. Ruby 2.7 and MongoDB 8.0 jobs use Ubuntu 22.04; other jobs use the latest Ubuntu runner. MongoDB 8.0 cannot start on Linux kernels 6.19 and newer ([SERVER-121912](https://jira.mongodb.org/browse/SERVER-121912)), which can appear on rolling `ubuntu-latest` runners.
 
 Select dependency versions with `GRAPE_VERSION`, `RACK_VERSION`, `ACTIVERECORD_VERSION`, and `MONGOID_VERSION`. Resolve the bundle again when changing versions:
 
