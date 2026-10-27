@@ -10,6 +10,7 @@
 * [#45](https://github.com/ruby-grape/grape-roar/pull/45): Document native array rendering with Roar's collection factory while preserving collection envelopes and request-aware links - [@dblock](https://github.com/dblock).
 * [#46](https://github.com/ruby-grape/grape-roar/pull/46): Document Grape's built-in representer lookup through model Entity constants and API-local decorator mappings, including explicit overrides - [@dblock](https://github.com/dblock).
 * [#48](https://github.com/ruby-grape/grape-roar/pull/48): Document presenter parameter types using Grape's custom parsing contract with explicit input validation and writable properties; keep legacy test bundles on JSON 2.x for MultiJson compatibility - [@dblock](https://github.com/dblock).
+* [#47](https://github.com/ruby-grape/grape-roar/pull/47): Document Swagger response metadata using the optional grape-swagger-representable parser and Roar decorators; run MongoDB 8.0 CI jobs on Ubuntu 22.04 to avoid unsupported Linux kernels - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.5.0 (2025/09/25)
