@@ -22,6 +22,7 @@ Use [Roar](https://github.com/apotonick/roar) with [Grape](https://github.com/in
   - [Decorators](#decorators)
   - [Presenter Parameter Types](#presenter-parameter-types)
   - [Swagger Documentation](#swagger-documentation)
+  - [CRUD Endpoints](#crud-endpoints)
   - [Nested Representers](#nested-representers)
   - [Caching Representations](#caching-representations)
   - [Relation Extensions](#relation-extensions)
@@ -243,7 +244,7 @@ end
 Grape supports `type: Presenter` when the class implements its custom-type `.parse` contract. Define this on an application-specific input decorator: validate the input, parse only declared writable properties, and return a decorator instance so Grape's type check succeeds.
 
 ```ruby
-class ParameterProductRepresenter < Grape::Roar::Decorator
+class ProductInputRepresenter < Grape::Roar::Decorator
   include Roar::JSON
 
   property :title
@@ -261,12 +262,12 @@ class ParameterProductRepresenter < Grape::Roar::Decorator
   end
 end
 
-class ParameterAPI < Grape::API
+class ProductsAPI < Grape::API
   format :json
   formatter :json, Grape::Formatter::Roar
 
   params do
-    requires :product, type: ParameterProductRepresenter
+    requires :product, type: ProductInputRepresenter
   end
   post 'products' do
     params[:product]
@@ -313,6 +314,73 @@ end
 ```
 
 `/swagger_doc/product` describes an integer `id` and string `title`, including their descriptions, while `/product/:id` renders the same properties with Roar. The parser registers decorator classes, not representer modules; use a decorator for a documented response model. Response documentation does not validate incoming parameters, and custom links, getters, and envelopes still need schemas that match their actual output.
+
+### CRUD Endpoints
+
+Keep persistence application-local: use a dedicated input representer for writable fields, validate parameters with Grape, and call your model's persistence methods explicitly. For example, with an ActiveRecord-style model exposing `find`, `save!`, and `destroy!`:
+
+```ruby
+class ProductInputRepresenter < Grape::Roar::Decorator
+  include Roar::JSON
+
+  property :title
+end
+
+class ProductOutputRepresenter < Grape::Roar::Decorator
+  include Roar::JSON
+
+  property :id
+  property :title
+end
+
+class ProductsAPI < Grape::API
+  format :json
+  formatter :json, Grape::Formatter::Roar
+
+  helpers do
+    def parse_product(product)
+      attributes = declared(params, include_missing: false).fetch(:product).transform_keys(&:to_s)
+      ProductInputRepresenter.new(product).from_hash(attributes)
+    end
+  end
+
+  params do
+    requires :product, type: Hash do
+      requires :title, type: String, allow_blank: false
+    end
+  end
+  post 'products' do
+    product = parse_product(Product.new)
+    product.save!
+    present product, with: ProductOutputRepresenter
+  end
+
+  params do
+    requires :id, type: Integer
+    requires :product, type: Hash do
+      optional :title, type: String, allow_blank: false
+    end
+  end
+  patch 'products/:id' do
+    product = parse_product(Product.find(params[:id]))
+    product.save!
+    present product, with: ProductOutputRepresenter
+  end
+
+  params do
+    requires :id, type: Integer
+  end
+  delete 'products/:id' do
+    product = Product.find(params[:id])
+    product.destroy!
+    present product, with: ProductOutputRepresenter
+  end
+end
+```
+
+Send create/update input as `{"product":{"title":"Lonestar"}}` with `Content-Type: application/json`. `declared` filters request fields and the input representer only assigns `title`; output fields such as `id` are not writable. `include_missing: false` preserves existing values on partial updates. `from_hash` returns the model, while `present` applies the output representer after a successful write.
+
+Scope record lookups to the authorized user and apply your application's authorization policy before mutations. Adapt persistence calls to your ORM. Configure application-specific `rescue_from` handlers for expected not-found, validation, or failed-destruction exceptions, mapping them to appropriate HTTP errors. The example deliberately uses raising persistence methods and does not swallow failures or return success when a write fails. Roar does not infer persistence, authorization, or validation rules from output properties.
 
 ### Nested Representers
 

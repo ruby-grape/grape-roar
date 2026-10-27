@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 describe Grape::Roar do
-  subject(:app) { ParameterAPI }
+  subject(:app) { ProductsAPI }
 
   before do
-    stub_const('ParameterProductRepresenter', Class.new(Grape::Roar::Decorator))
-    stub_const('ParameterAPI', Class.new(Grape::API))
+    stub_const('ProductInputRepresenter', Class.new(Grape::Roar::Decorator))
+    stub_const('ProductsAPI', Class.new(Grape::API))
     readme = File.expand_path('../../README.md', __dir__)
     section = File.read(readme).split("### Presenter Parameter Types\n", 2).fetch(1).split("\n### ", 2).first
     example = section[/```ruby\n(.*?)```/m, 1]
