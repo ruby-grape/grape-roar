@@ -41,7 +41,7 @@ GRAPE_VERSION='~> 4.0' bundle update
 GRAPE_VERSION='~> 4.0' bundle exec rake
 ```
 
-Grape 1.x requires Rack 2.x:
+Grape 1.x requires Rack 2.x. On Ruby versions older than 3.2, the Gemfile also selects JSON 2.x because the compatible MultiJson releases use `JSON.load` options removed in JSON 3:
 
 ```sh
 GRAPE_VERSION='~> 1.8' RACK_VERSION='~> 2.2' bundle update
